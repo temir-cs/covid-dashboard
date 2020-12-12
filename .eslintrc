@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+      "prefer-arrow-callback": 0,
+      "arrow-body-style": 0,
+      "no-lonely-if": 0,
+      "eqeqeq": 0,
+      "max-len": ["error", { "code": 140 }],
+      "object-curly-newline": 0,
+      "linebreak-style": 0,
+      "indent": ["error", 4],
+      "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+      "no-restricted-syntax": ["error", "never"],
+      "no-console": "off"
+  },
+  "settings": {
+      "react": {
+        "version": "999.999.999"
+      }
+  }
+}

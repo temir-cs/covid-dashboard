@@ -1,0 +1,32 @@
+.countries {
+  @include list-normalize();
+}
+
+.countries__item {
+  padding-top: 0.6rem;
+  padding-bottom: 0.8rem;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  color: $text-color;
+  border-bottom: 1px $darker-bg-color solid;
+
+  display: flex;
+
+}
+
+.countries__number {
+  width: 30%;
+  font-weight: 600; 
+}
+
+.countries__name {
+  width: 50%;
+}
+
+.countries__flag {
+  width: 4rem;
+  height: 2.7rem;
+  background-color: $darker-bg-color;
+}

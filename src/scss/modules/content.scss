@@ -1,0 +1,107 @@
+.content {
+  width: 100%;
+  min-height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content__left {
+  width: 20%;
+  height: 88vh;
+  background-color: $lighter-bg-color;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.content__last-updated {
+  background-color: $darker-bg-color;
+  height: 12vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content__global {
+  background-color: $main-bg-color;
+  height: 14vh;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.content__countries {
+  padding-left: 1.6rem;
+  background-color: $lighter-bg-color;
+}
+
+.content__subtitle {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 4.2rem;
+  line-height: 4.8rem;
+  color: $text-color;
+
+  &--mid {
+    font-size: 2.4rem;
+    line-height: 3rem;
+  }
+
+  &--sm {
+    margin-top: 1.2rem;
+    font-size: 1.4rem;
+  }
+}
+
+.content__accent {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 600; 
+  font-size: 4rem;
+  line-height: 4.8rem;
+  color: $text-color;
+
+  &--total {
+    font-size: 5.2rem;
+  }
+}
+
+.content__search {
+  width: 94%;
+  height: 3.6rem;
+  margin-top: 0.4rem;
+  margin-bottom: 1.2rem;
+  border: 0;
+}
+
+.content__center {
+  width: 55%;
+  background-color: $map-bg-color;
+  height: 88vh;
+}
+
+.content__right {
+  width: 25%;
+  height: 88vh;
+  background-color: $lighter-bg-color;
+}
+
+.content__details {
+  padding: 1rem 1.6rem;
+  height: 40vh;
+  background-color: $darker-bg-color;
+}
+
+.content__graphs {
+  padding: 1rem 1.6rem;
+}

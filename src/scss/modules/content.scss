@@ -1,0 +1,166 @@
+.content {
+  width: 100%;
+  min-height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.content__left {
+  width: 20%;
+  height: 88vh;
+  background-color: $lighter-bg-color;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.content__last-updated {
+  background-color: $darker-bg-color;
+  height: 12vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content__global {
+  background-color: $main-bg-color;
+  height: 14vh;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.content__countries {
+  padding-left: 1.6rem;
+  width: 100%;
+  height: 62vh;
+  background-color: $lighter-bg-color;
+}
+
+.content__subtitle {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 4.2rem;
+  line-height: 4.8rem;
+  color: $text-color;
+
+  &--mid {
+    font-size: 2.4rem;
+    line-height: 3rem;
+  }
+
+  &--sm {
+    margin-top: 1.2rem;
+    font-size: 1.4rem;
+  }
+}
+
+.content__accent {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 600; 
+  font-size: 4rem;
+  line-height: 4.8rem;
+  color: $text-color;
+
+  &--total {
+    font-size: 5.2rem;
+  }
+}
+
+.content__remark {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+}
+
+.content__search {
+  width: 29rem;
+  height: 3.6rem;
+  margin-top: 0.8rem;
+  margin-left: 0.6rem;
+  margin-bottom: 1.2rem;
+  padding: 0.6rem 1rem;
+  border: 0;
+  background-color: $inputs-bg-color;
+}
+
+.content__controls {
+
+}
+
+.content__center {
+  width: 55%;
+  background-color: $map-bg-color;
+  height: 88vh;
+}
+
+.content__right {
+  width: 25%;
+  height: 88vh;
+  background-color: $lighter-bg-color;
+}
+
+.content__details {
+  padding: 1rem 1.6rem;
+  height: 40vh;
+  width: 100%;
+  background-color: $darker-bg-color;
+}
+
+.content__graphs {
+  width: 100%;
+  height: 48vh;
+  padding: 1rem 1.6rem;
+  background-color: $lighter-bg-color;
+}
+
+.content__options {
+
+}
+
+
+.content__expandable {
+  position: relative;
+  transition: all 0.2s;
+
+  &--expanded {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+}
+
+.content__expand-btn {
+    outline: none;
+    border: 0;
+    position: absolute;
+    cursor: pointer;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url("../../assets/img/expand_btn.svg");
+    background-size: 1.5rem 1.5rem;
+
+    &--expanded {
+      background-image: url("../../assets/img/collapse_btn.svg");
+    }
+}

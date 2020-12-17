@@ -6,6 +6,141 @@
   <title>Covid dashboard</title>
 </head>
 <body>
+  <header class="page-header">
+    <h1 class="page-header__title">Covid-19 Dashboard</h1>
+  </header>
+  <main class="content">
+    <div class="content__left">
+      <div class="content__last-updated  content__expandable">
+        <button class="content__expand-btn"></button>
+        <h3 class="content__subtitle  content__subtitle--mid">Last updated</h3>
+        <p class="content__accent  content__accent--date">12/12/2020</p>
+      </div>
+      <div class="content__global  content__expandable">
+        <button class="content__expand-btn"></button>
+        <h3 class="content__subtitle  content__subtitle--mid">Global cases</h3>
+        <p class="content__accent  content__accent--total">12.000.000</p>
+      </div>
+      <div class="content__countries  content__expandable">
+        <button class="content__expand-btn"></button>
+        <h3 class="content__subtitle  content__subtitle--sm">Cases by Country/Region/Sovereignty</h3>
+        <input class="content__search">
+        <ul class="content__countries-list  countries">
+          <li class="countries__item">
+            <span class="countries__number">1.123.145</span>
+            <span class="countries__name">Country Name</span>
+            <div class="countries__flag"></div>
+          </li>
+          <li class="countries__item">
+            <span class="countries__number">1.123.145</span>
+            <span class="countries__name">Country Name</span>
+            <div class="countries__flag"></div>
+          </li>
+          <li class="countries__item">
+            <span class="countries__number">123.145</span>
+            <span class="countries__name">Country Name</span>
+            <div class="countries__flag"></div>
+          </li>
+        </ul>
+        <div class="content__options  options">
+          <input class="options__input" type="radio" name="countries-options" id="countries-cases" checked="checked" >
+          <label for="countries-cases" class="options__label">Cases</label>
+          <input class="options__input" type="radio" name="countries-options" id="countries-deaths">
+          <label for="countries-deaths" class="options__label">Deaths</label>
+          <input class="options__input" type="radio" name="countries-options" id="countries-recovered">
+          <label for="countries-recovered" class="options__label">Recovered</label>
+        </div>
+      </div>
+    </div>
+    <div class="content__center  content__expandable">
+      <button class="content__expand-btn"></button>
+      <div class="content__map">
+        <div class="content__options  options  options--map">
+          <input class="options__input" type="radio" name="map-options" id="map-cases" checked="checked" >
+          <label for="map-cases" class="options__label">Cases</label>
+          <input class="options__input" type="radio" name="map-options" id="map-deaths">
+          <label for="map-deaths" class="options__label">Deaths</label>
+          <input class="options__input" type="radio" name="map-options" id="map-recovered">
+          <label for="map-recovered" class="options__label">Recovered</label>
+        </div>
+      </div>
+    </div>
+    <div class="content__right">
+      <div class="content__details  content__expandable">
+        <button class="content__expand-btn"></button>
+        <h2 class="content__subtitle">Global</h2>
+        <span class="content__remark">or</span> <input class="content__search" placeholder="Search by Country...">
+        <div class="content__controls  toggle">
+          <div class="toggle__btn  toggle__btn--period">
+            <p class="toggle__txt  toggle__txt--period">Total period</p>
+          </div>
+          <div class="toggle__btn  toggle__btn--numbers">
+            <p class="toggle__txt  toggle__txt--numbers">Absolute numbers</p>
+          </div>          
+        </div>
+        <ul class="content__stats  stats">
+          <li class="stats__item">
+            <span class="stats__number">1.123.145</span>
+            <span class="stats__tag">Cases</span>
+          </li>
+          <li class="stats__item">
+            <span class="stats__number">1.123.145</span>
+            <span class="stats__tag">Deaths</span>
+          </li>
+          <li class="stats__item">
+            <span class="stats__number">1.123.145</span>
+            <span class="stats__tag">Recovered</span>
+          </li>
+        </ul>
+      </div>
+      <div class="content__graphs  content__expandable">
+        <button class="content__expand-btn"></button>
+        <h2 class="content__subtitle">Global</h2>
+        <span class="content__remark">or</span> <input class="content__search" placeholder="Search by Country...">
+        <div class="content__options  options  options--graph">
+          <input class="options__input" type="radio" name="graphs-options" id="graphs-cases" checked="checked" >
+          <label for="graphs-cases" class="options__label">Cases</label>
+          <input class="options__input" type="radio" name="graphs-options" id="graphs-deaths">
+          <label for="graphs-deaths" class="options__label">Deaths</label>
+          <input class="options__input" type="radio" name="graphs-options" id="graphs-recovered">
+          <label for="graphs-recovered" class="options__label">Recovered</label>
+        </div>
+        <div class="content__graph  graph">
+          
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="page-footer">
+      <a class="page-footer__logo" href="https://rs.school/js/" target="blank">
+        <img class="page-footer__img" src="./assets/img/rs_school_js.svg">
+      </a>
+      <span class="page-footer__text">
+        <a class="page-footer__link" href="https://github.com/aitzhans" target="blank">Github Links</a> 2020
+      </span>
+  </footer>
 
+
+  <script>
+    // ---- TO BE REMOVED --- //
+    const toggle = document.querySelector(".toggle__btn--period");
+    const toggleText = document.querySelector('.toggle__txt--period')
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('toggle__btn--toggled');
+      if (toggle.classList.contains('toggle__btn--toggled')) {
+        toggleText.innerText = 'Last updated date';
+      } else {
+        toggleText.innerText = 'Total period';
+      }
+    })
+
+    const expandBtns = document.querySelectorAll('.content__expand-btn');
+    expandBtns.forEach((btn) => btn.addEventListener('click', () => {
+      const parent = btn.parentNode;
+      parent.classList.toggle('content__expandable--expanded');
+      btn.classList.toggle('content__expand-btn--expanded');
+    }))
+    // ---- TO BE REMOVED --- //
+  </script>
 </body>
 </html>

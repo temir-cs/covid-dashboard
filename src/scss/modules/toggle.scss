@@ -1,0 +1,59 @@
+.toggle {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+.toggle__btn {
+  padding: 0 2rem;
+  height: 2rem;
+  margin-right: 3.2rem;
+  margin-left: 0.5rem;
+  background-color: $inputs-bg-color;
+  position: relative;
+  cursor: pointer;
+
+  &--period {
+    width: 15rem;
+  }
+
+  &--numbers {
+    width: 18rem;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    margin-left: -0.5rem;
+    top: -0.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: $toggle-circle-color;
+    transition: all 0.2s;
+  }
+
+  &--toggled {
+    padding-left: 1.5rem;
+    &::after {
+      left: 100%;
+      margin-left: -1rem;
+    }
+  }
+}
+
+.toggle__txt {
+  padding: 0;
+  padding-left: 1rem;
+  margin: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.toggle__btn--toggled .toggle__txt {
+  padding-left: 0;
+}

@@ -87,7 +87,7 @@ export default class View {
         // console.log(this.state.currentGraph);
         const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
         const values = [...this.state.currentGraph[key].values()];
-        this.clearChartCanvas();
+        if (this.chart) { this.chart.destroy(); }
         const ctx = document.getElementById('myChart').getContext('2d');
 
         this.chart = new Chart(ctx, {
@@ -129,23 +129,5 @@ export default class View {
             }
         });
         // console.log(myChart);
-    }
-
-    // reRenderGraphs(selectedCriteria) {
-    //     const key = selectedCriteria || 'dailyConfirmedIncrements';
-    //     console.log(key);
-    //     // const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
-    //     // const values = [...this.state.currentGraph[key].values()];
-    //     // console.log(dates);
-    //     // console.log(values);
-    //     this.clearChartCanvas();
-    // }
-
-    clearChartCanvas() {
-        this.chartContainer.innerHTML = '';
-        this.chart = null;
-        const canvas = document.createElement('canvas');
-        canvas.setAttribute('id', 'myChart');
-        this.chartContainer.appendChild(canvas);
     }
 }

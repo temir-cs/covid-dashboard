@@ -1,9 +1,14 @@
+import Chart from 'chart.js';
+import MONTH_NAMES from './consts';
+
 export default class View {
     constructor(state) {
         this.state = state;
         this.countryMarker = 'totalConfirmed';
         this.detailsIsTotal = true;
         this.detailsIsAbs = true;
+        this.chartContainer = document.querySelector('.chart-container');
+        this.chart = null;
     }
 
     renderState() {
@@ -77,7 +82,70 @@ export default class View {
         toggleText.innerText = (this.detailsIsAbs) ? 'Absolute numbers' : 'Incidence Rate';
     }
 
-    renderGraphs() {
-        console.log(this.state.lastUpdated);
+    renderGraphs(selectedCriteria) {
+        const key = selectedCriteria || 'dailyConfirmedIncrements';
+        // console.log(this.state.currentGraph);
+        const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
+        const values = [...this.state.currentGraph[key].values()];
+        this.clearChartCanvas();
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        this.chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: key,
+                    data: values,
+                    barPercentage: 1.0,
+                    categoryPercentage: 1.0,
+                    hoverBackgroundColor: 'rgba(0, 0, 0, 0.4)'
+                }]
+            },
+            options: {
+                legend: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            offsetGridLines: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 5,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            callback(value) {
+                                return MONTH_NAMES[parseInt(value.slice(5, 7), 10) - 1];
+                            }
+                        }
+                    }]
+
+                }
+            }
+        });
+        // console.log(myChart);
+    }
+
+    // reRenderGraphs(selectedCriteria) {
+    //     const key = selectedCriteria || 'dailyConfirmedIncrements';
+    //     console.log(key);
+    //     // const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
+    //     // const values = [...this.state.currentGraph[key].values()];
+    //     // console.log(dates);
+    //     // console.log(values);
+    //     this.clearChartCanvas();
+    // }
+
+    clearChartCanvas() {
+        this.chartContainer.innerHTML = '';
+        this.chart = null;
+        const canvas = document.createElement('canvas');
+        canvas.setAttribute('id', 'myChart');
+        this.chartContainer.appendChild(canvas);
     }
 }

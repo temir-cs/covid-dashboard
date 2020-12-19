@@ -1,4 +1,4 @@
-import { REQUEST_OPTIONS, SUMMARY_URL } from './consts';
+import { REQUEST_OPTIONS, SUMMARY_URL, COUNTRY_URL } from './consts';
 import { getJSON, numbersSort } from './utils';
 
 export default class State {
@@ -10,9 +10,21 @@ export default class State {
             totalRecovered: 0,
             totalDeaths: 0,
         };
+        this.currentGraph = {
+            dailyConfirmedIncrements: null,
+            dailyDeathsIncrements: null,
+            dailyRecoveredIncrements: null,
+        };
     }
 
     init() {
+        return Promise.all([
+            this.getTotals(),
+            this.getDaily()
+        ]);
+    }
+
+    getTotals() {
         return (getJSON.call(this, SUMMARY_URL, REQUEST_OPTIONS)
             .then((result) => {
                 const allData = JSON.parse(result);
@@ -34,6 +46,7 @@ export default class State {
                     this.countries.push({
                         date: country.Date.slice(0, 10),
                         country: country.Country,
+                        slug: country.Slug,
                         countryCode: country.CountryCode,
                         totalConfirmed: country.TotalConfirmed,
                         totalRecovered: country.TotalDeaths,
@@ -48,6 +61,46 @@ export default class State {
                 // console.log(this.lastUpdated);
                 // console.log(this.countries[5]);
             }));
+    }
+
+    getDaily() {
+        // istead of country should be country.slug to form correct url for country
+        // const country = 'kazakhstan';
+        const country = 'iran';
+        const url = `${COUNTRY_URL}${country}`;
+        // console.log(url);
+
+        return (getJSON.call(this, url, REQUEST_OPTIONS)
+            .then((result) => {
+                const dailyStats = JSON.parse(result);
+                // console.log(dailyStats);
+                const dailyConfirmed = new Map();
+                const dailyDeath = new Map();
+                const dailyRecovered = new Map();
+                dailyStats.forEach((line) => {
+                    dailyConfirmed.set(line.Date, line.Confirmed);
+                    dailyDeath.set(line.Date, line.Deaths);
+                    dailyRecovered.set(line.Date, line.Recovered);
+                });
+                this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
+                this.createIncrementsForGraphs(dailyDeath, 'dailyDeathsIncrements');
+                this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
+                // this.currentGraph.dailyConfirmedIncrements = new Map();
+                // let prevDateCases = 0;
+                // dailyConfirmed.forEach((activeCases, date) => {
+                //     this.currentGraph.dailyConfirmedIncrements.set(date, activeCases - prevDateCases);
+                //     prevDateCases = activeCases;
+                // });
+            }));
+    }
+
+    createIncrementsForGraphs(iniMap, key) {
+        this.currentGraph[key] = new Map();
+        let prevDateCases = 0;
+        iniMap.forEach((activeCases, date) => {
+            this.currentGraph[key].set(date, activeCases - prevDateCases);
+            prevDateCases = activeCases;
+        });
     }
 
     countriesSort(sortingCriteria) {

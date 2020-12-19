@@ -3,4 +3,11 @@ export const REQUEST_OPTIONS = {
     redirect: 'follow',
 };
 
-export const SUMMARY_URL = 'https://api.covid19api.com/summary';
+// префикс https://cors-anywhere.herokuapp.com используем для доступа
+// к данным с других сайтов если браузер возвращает ошибку Cross-Origin Request Blocked
+// from https://codepen.io/irinainina/pen/LYNqmQd
+// const corsPrefix = 'https://cors-anywhere.herokuapp.com/';
+const corsPrefix = '';
+
+export const SUMMARY_URL = `${corsPrefix}https://api.covid19api.com/summary`;
+export const COUNTRY_URL = `${corsPrefix}https://api.covid19api.com/dayone/country/`;

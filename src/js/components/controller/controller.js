@@ -10,14 +10,22 @@ export default class Controller {
             'countries-recovered': 'totalRecovered',
             'countries-deaths': 'totalDeaths',
         };
+        this.chartOptions = {
+            'chart-cases': 'dailyConfirmedIncrements',
+            'chart-recovered': 'dailyRecoveredIncrements',
+            'chart-deaths': 'dailyDeathsIncrements',
+        };
     }
 
     start() {
+        // this.state.getTotals()
         this.state.init()
             .then(() => {
+                // this.state.getDaily();
                 this.view.renderState();
                 this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
+                this.addListenersToChartOptions();
             });
     }
 
@@ -28,6 +36,18 @@ export default class Controller {
                 const sortingCriteria = this.countriesOptions[radio.getAttribute('id')];
                 this.state.countriesSort(sortingCriteria);
                 this.view.renderCountries(sortingCriteria);
+            });
+        });
+    }
+
+    addListenersToChartOptions() {
+        const countriesOptions = document.querySelectorAll('input[name=chart-options]');
+        countriesOptions.forEach((radio) => {
+            radio.addEventListener('click', () => {
+                const selectedCriteria = this.chartOptions[radio.getAttribute('id')];
+                console.log('click');
+                this.view.renderGraphs(selectedCriteria);
+                // this.view.renderGraphs(selectedCriteria);
             });
         });
     }
@@ -45,6 +65,6 @@ export default class Controller {
             this.view.renderNumbersToggle(numsToggle);
             this.view.renderDetails();
         });
-        console.log(this.state.lastUpdated);
+        // console.log(this.state.lastUpdated);
     }
 }

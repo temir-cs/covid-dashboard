@@ -44,6 +44,7 @@
   padding-left: 1.6rem;
   width: 100%;
   height: 62vh;
+  overflow: hidden;
   background-color: $lighter-bg-color;
 }
 
@@ -97,6 +98,10 @@
   padding: 0.6rem 1rem;
   border: 0;
   background-color: $inputs-bg-color;
+
+  &--countries {
+    margin-left: 0;
+  }
 }
 
 .content__controls {

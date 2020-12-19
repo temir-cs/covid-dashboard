@@ -1,5 +1,15 @@
 .countries {
-  @include list-normalize();
+  @include list-normalize();  
+}
+
+.countries__container {
+  height: 50vh;
+  overflow-y: scroll;
+
+}
+
+.content__expandable--expanded .countries__container {
+  height: 89vh;
 }
 
 .countries__item {
@@ -8,25 +18,26 @@
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
   font-size: 1.6rem;
-  line-height: 2.4rem;
+  line-height: 1.8rem;
   color: $text-color;
   border-bottom: 1px $darker-bg-color solid;
 
   display: flex;
+  align-items: center;
 
 }
 
 .countries__number {
-  width: 30%;
+  width: 28%;
   font-weight: 600; 
 }
 
 .countries__name {
-  width: 50%;
+  width: 58%;
 }
 
 .countries__flag {
-  width: 4rem;
-  height: 2.7rem;
+  width: 3.6rem;
+  height: 2.4rem;
   background-color: $darker-bg-color;
 }

@@ -14,34 +14,22 @@
       <div class="content__last-updated  content__expandable">
         <button class="content__expand-btn"></button>
         <h3 class="content__subtitle  content__subtitle--mid">Last updated</h3>
-        <p class="content__accent  content__accent--date">12/12/2020</p>
+        <p class="content__accent  content__accent--date"></p>
       </div>
       <div class="content__global  content__expandable">
         <button class="content__expand-btn"></button>
         <h3 class="content__subtitle  content__subtitle--mid">Global cases</h3>
-        <p class="content__accent  content__accent--total">12.000.000</p>
+        <p class="content__accent  content__accent--total"></p>
       </div>
       <div class="content__countries  content__expandable">
         <button class="content__expand-btn"></button>
         <h3 class="content__subtitle  content__subtitle--sm">Cases by Country/Region/Sovereignty</h3>
-        <input class="content__search">
-        <ul class="content__countries-list  countries">
-          <li class="countries__item">
-            <span class="countries__number">1.123.145</span>
-            <span class="countries__name">Country Name</span>
-            <div class="countries__flag"></div>
-          </li>
-          <li class="countries__item">
-            <span class="countries__number">1.123.145</span>
-            <span class="countries__name">Country Name</span>
-            <div class="countries__flag"></div>
-          </li>
-          <li class="countries__item">
-            <span class="countries__number">123.145</span>
-            <span class="countries__name">Country Name</span>
-            <div class="countries__flag"></div>
-          </li>
-        </ul>
+        <input class="content__search  content__search--countries" placeholder="Search by Country...">
+        <div class="countries__container">
+          <ul class="content__countries-list  countries">
+          </ul>          
+        </div>
+
         <div class="content__options  options">
           <input class="options__input" type="radio" name="countries-options" id="countries-cases" checked="checked" >
           <label for="countries-cases" class="options__label">Cases</label>

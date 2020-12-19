@@ -56,7 +56,7 @@
     <div class="content__right">
       <div class="content__details  content__expandable">
         <button class="content__expand-btn"></button>
-        <h2 class="content__subtitle">Global</h2>
+        <h2 class="content__subtitle">Details: <span class="content__country-name">Global</span></h2>
         <span class="content__remark">or</span> <input class="content__search" placeholder="Search by Country...">
         <div class="content__controls  toggle">
           <div class="toggle__btn  toggle__btn--period">
@@ -68,22 +68,22 @@
         </div>
         <ul class="content__stats  stats">
           <li class="stats__item">
-            <span class="stats__number">1.123.145</span>
+            <span class="stats__number  stats__number--cases"></span>
             <span class="stats__tag">Cases</span>
           </li>
           <li class="stats__item">
-            <span class="stats__number">1.123.145</span>
+            <span class="stats__number  stats__number--deaths"></span>
             <span class="stats__tag">Deaths</span>
           </li>
           <li class="stats__item">
-            <span class="stats__number">1.123.145</span>
+            <span class="stats__number  stats__number--recovered"></span>
             <span class="stats__tag">Recovered</span>
           </li>
         </ul>
       </div>
       <div class="content__graphs  content__expandable">
         <button class="content__expand-btn"></button>
-        <h2 class="content__subtitle">Global</h2>
+        <h2 class="content__subtitle">Daily rates: <span class="content__country-name">United States of America</span></h2>
         <span class="content__remark">or</span> <input class="content__search" placeholder="Search by Country...">
         <div class="content__options  options  options--graph">
           <input class="options__input" type="radio" name="graphs-options" id="graphs-cases" checked="checked" >
@@ -111,16 +111,6 @@
 
   <script>
     // ---- TO BE REMOVED --- //
-    const toggle = document.querySelector(".toggle__btn--period");
-    const toggleText = document.querySelector('.toggle__txt--period')
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('toggle__btn--toggled');
-      if (toggle.classList.contains('toggle__btn--toggled')) {
-        toggleText.innerText = 'Last updated date';
-      } else {
-        toggleText.innerText = 'Total period';
-      }
-    })
 
     const expandBtns = document.querySelectorAll('.content__expand-btn');
     expandBtns.forEach((btn) => btn.addEventListener('click', () => {

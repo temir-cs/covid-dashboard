@@ -53,9 +53,10 @@
   padding: 0;
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
-  font-size: 4.2rem;
-  line-height: 4.8rem;
+  font-size: 3.2rem;
+  line-height: 3.6rem;
   color: $text-color;
+  margin-bottom: 0.5rem;
 
   &--mid {
     font-size: 2.4rem;
@@ -66,6 +67,11 @@
     margin-top: 1.2rem;
     font-size: 1.4rem;
   }
+}
+
+.content__country-name {
+  font-weight: 600; 
+  // font-size: 4.2rem;
 }
 
 .content__accent {

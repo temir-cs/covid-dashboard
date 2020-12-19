@@ -17,6 +17,7 @@ export default class Controller {
             .then(() => {
                 this.view.renderState();
                 this.addListenersToCountriesOptions();
+                this.addListenersToDetailsToggles();
             });
     }
 
@@ -29,7 +30,21 @@ export default class Controller {
                 this.view.renderCountries(sortingCriteria);
             });
         });
-        // console.log(countriesOptions);
+    }
+
+    addListenersToDetailsToggles() {
+        const periodToggle = document.querySelector('.toggle__btn--period');
+        const numsToggle = document.querySelector('.toggle__btn--numbers');
+        periodToggle.addEventListener('click', () => {
+            this.view.detailsIsTotal = !this.view.detailsIsTotal;
+            this.view.renderPeriodToggle(periodToggle);
+            this.view.renderDetails();
+        });
+        numsToggle.addEventListener('click', () => {
+            this.view.detailsIsAbs = !this.view.detailsIsAbs;
+            this.view.renderNumbersToggle(numsToggle);
+            this.view.renderDetails();
+        });
         console.log(this.state.lastUpdated);
     }
 }

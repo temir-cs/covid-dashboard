@@ -2,6 +2,8 @@ export default class View {
     constructor(state) {
         this.state = state;
         this.countryMarker = 'totalConfirmed';
+        this.detailsIsTotal = true;
+        this.detailsIsAbs = true;
     }
 
     renderState() {
@@ -9,6 +11,7 @@ export default class View {
         this.renderGlobalCases();
         this.renderCountries();
         this.renderDetails();
+        this.renderGraphs();
     }
 
     renderDate() {
@@ -48,9 +51,33 @@ export default class View {
     }
 
     renderDetails() {
-        console.log('right column top block');
-        console.log(this.state.global.totalConfirmed);
-        console.log(this.state.global.totalDeaths);
-        console.log(this.state.global.totalRecovered);
+        const cases = (this.detailsIsTotal) ? 'totalConfirmed' : 'newConfirmed';
+        const deaths = (this.detailsIsTotal) ? 'totalDeaths' : 'newDeaths';
+        const recovered = (this.detailsIsTotal) ? 'totalRecovered' : 'newRecovered';
+
+        const detailsCases = document.querySelector('.stats__number--cases');
+        const detailsDeaths = document.querySelector('.stats__number--deaths');
+        const detailsRecovered = document.querySelector('.stats__number--recovered');
+        detailsCases.innerText = this.state.global[cases].toLocaleString('de-DE');
+        detailsDeaths.innerText = this.state.global[deaths].toLocaleString('de-DE');
+        detailsRecovered.innerText = this.state.global[recovered].toLocaleString('de-DE');
+    }
+
+    renderPeriodToggle(periodToggle) {
+        const toggle = periodToggle;
+        toggle.classList.toggle('toggle__btn--toggled');
+        const toggleText = document.querySelector('.toggle__txt--period');
+        toggleText.innerText = (this.detailsIsTotal) ? 'Total period' : 'Last updated date';
+    }
+
+    renderNumbersToggle(numsToggle) {
+        const toggle = numsToggle;
+        toggle.classList.toggle('toggle__btn--toggled');
+        const toggleText = document.querySelector('.toggle__txt--numbers');
+        toggleText.innerText = (this.detailsIsAbs) ? 'Absolute numbers' : 'Incidence Rate';
+    }
+
+    renderGraphs() {
+        console.log(this.state.lastUpdated);
     }
 }

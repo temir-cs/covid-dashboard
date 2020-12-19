@@ -40,4 +40,9 @@
   width: 3.6rem;
   height: 2.4rem;
   background-color: $darker-bg-color;
+
+  & > img {
+    width: 3.6rem;
+    height: 2.4rem;
+  }
 }

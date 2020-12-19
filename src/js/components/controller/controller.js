@@ -21,11 +21,13 @@ export default class Controller {
         // this.state.getTotals()
         this.state.init()
             .then(() => {
-                // this.state.getDaily();
+                // this.state.getFlagsAndPopulation()
+                //     .then(() => {
                 this.view.renderState();
                 this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
+                // });
             });
     }
 

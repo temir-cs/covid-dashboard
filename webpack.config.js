@@ -9,6 +9,7 @@ module.exports = {
     entry: {
         index: [path.resolve(__dirname, 'src', 'js/index.js'),
             path.resolve(__dirname, 'src', 'scss/style.scss')],
+
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -64,4 +65,10 @@ module.exports = {
     devServer: {
         open: true,
     },
+    externals: {
+        moment: 'moment'
+    },
+    performance: {
+        hints: false
+    }
 };

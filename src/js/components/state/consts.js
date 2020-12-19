@@ -11,3 +11,5 @@ const corsPrefix = '';
 
 export const SUMMARY_URL = `${corsPrefix}https://api.covid19api.com/summary`;
 export const COUNTRY_URL = `${corsPrefix}https://api.covid19api.com/dayone/country/`;
+
+export const FLAGS_URL = 'https://restcountries.eu/rest/v2/all?fields=name;population;flag';

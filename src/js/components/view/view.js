@@ -1,5 +1,5 @@
 import Chart from 'chart.js';
-import MONTH_NAMES from './consts';
+import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
 
 export default class View {
     constructor(state) {
@@ -22,13 +22,11 @@ export default class View {
     renderDate() {
         const lastUpdated = document.querySelector('.content__accent--date');
         lastUpdated.innerText = this.state.lastUpdated.slice(0, 10);
-        // console.log(this.state.lastUpdated);
     }
 
     renderGlobalCases() {
         const globalCases = document.querySelector('.content__accent--total');
         globalCases.innerText = this.state.global.totalConfirmed.toLocaleString('de-DE');
-        // console.log(this.state.global.totalConfirmed.toLocaleString());
     }
 
     renderCountries(sortingCriteria) {
@@ -39,20 +37,27 @@ export default class View {
             const countryItem = this.renderLineInCountryList(country);
             countriesContainer.appendChild(countryItem);
         });
-        // console.log('left column bottom block');
-        // console.log(this.state.countries);
     }
 
     renderLineInCountryList(country) {
-        // console.log(this.countryMarker);
+        const flagPath = this.findFlag(country);
         const listItem = document.createElement('li');
         listItem.classList.add('countries__item');
         listItem.innerHTML = `<span class="countries__number">
                     ${country[this.countryMarker].toLocaleString('de-DE')}
                 </span>
                 <span class="countries__name">${country.country}</span>
-                <div class="countries__flag"></div>`;
+                <div class="countries__flag"><img src="${flagPath}"></div>`;
         return listItem;
+    }
+
+    findFlag(country) {
+        // console.log(COUNTRY_NAMES.find((elem) => elem.fromApi === country.country));
+        // console.log(this.state.lastUpdated);
+        // return '';
+        const searchCountry = (COUNTRY_NAMES.find((el) => el.fromApi === country.country))
+            ? COUNTRY_NAMES.find((el) => el.fromApi === country.country).fromFlag : country.country;
+        return this.state.flagsAndPopulation.find((line) => line.name === searchCountry).flag;
     }
 
     renderDetails() {
@@ -84,7 +89,6 @@ export default class View {
 
     renderGraphs(selectedCriteria) {
         const key = selectedCriteria || 'dailyConfirmedIncrements';
-        // console.log(this.state.currentGraph);
         const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
         const values = [...this.state.currentGraph[key].values()];
         if (this.chart) { this.chart.destroy(); }
@@ -128,6 +132,5 @@ export default class View {
                 }
             }
         });
-        // console.log(myChart);
     }
 }

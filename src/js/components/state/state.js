@@ -1,4 +1,4 @@
-import { REQUEST_OPTIONS, SUMMARY_URL, COUNTRY_URL } from './consts';
+import { REQUEST_OPTIONS, SUMMARY_URL, COUNTRY_URL, FLAGS_URL } from './consts';
 import { getJSON, numbersSort } from './utils';
 
 export default class State {
@@ -15,12 +15,14 @@ export default class State {
             dailyDeathsIncrements: null,
             dailyRecoveredIncrements: null,
         };
+        this.flagsAndPopulation = null;
     }
 
     init() {
         return Promise.all([
             this.getTotals(),
-            this.getDaily()
+            this.getDaily(),
+            this.getFlagsAndPopulation()
         ]);
     }
 
@@ -85,12 +87,6 @@ export default class State {
                 this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
                 this.createIncrementsForGraphs(dailyDeath, 'dailyDeathsIncrements');
                 this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
-                // this.currentGraph.dailyConfirmedIncrements = new Map();
-                // let prevDateCases = 0;
-                // dailyConfirmed.forEach((activeCases, date) => {
-                //     this.currentGraph.dailyConfirmedIncrements.set(date, activeCases - prevDateCases);
-                //     prevDateCases = activeCases;
-                // });
             }));
     }
 
@@ -105,5 +101,13 @@ export default class State {
 
     countriesSort(sortingCriteria) {
         this.countries = this.countries.sort((a, b) => numbersSort(a[sortingCriteria], b[sortingCriteria]));
+    }
+
+    getFlagsAndPopulation() {
+        return (getJSON.call(this, FLAGS_URL)
+            .then((result) => {
+                const data = JSON.parse(result);
+                this.flagsAndPopulation = data;
+            }));
     }
 }

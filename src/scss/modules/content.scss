@@ -140,6 +140,11 @@
   background-color: $lighter-bg-color;
 }
 
+.content__expandable--expanded .content__chart {
+  width: 70%;
+  margin: 0 auto;
+}
+
 .content__options {
 
 }

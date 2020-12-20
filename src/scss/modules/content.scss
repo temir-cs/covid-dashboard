@@ -44,6 +44,7 @@
   padding-left: 1.6rem;
   width: 100%;
   height: 62vh;
+  overflow: hidden;
   background-color: $lighter-bg-color;
 }
 
@@ -52,9 +53,10 @@
   padding: 0;
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
-  font-size: 4.2rem;
-  line-height: 4.8rem;
+  font-size: 3.2rem;
+  line-height: 3.6rem;
   color: $text-color;
+  margin-bottom: 0.5rem;
 
   &--mid {
     font-size: 2.4rem;
@@ -65,6 +67,11 @@
     margin-top: 1.2rem;
     font-size: 1.4rem;
   }
+}
+
+.content__country-name {
+  font-weight: 600; 
+  // font-size: 4.2rem;
 }
 
 .content__accent {
@@ -97,6 +104,10 @@
   padding: 0.6rem 1rem;
   border: 0;
   background-color: $inputs-bg-color;
+
+  &--countries {
+    margin-left: 0;
+  }
 }
 
 .content__controls {
@@ -122,11 +133,16 @@
   background-color: $darker-bg-color;
 }
 
-.content__graphs {
+.content__chart {
   width: 100%;
-  height: 48vh;
+  // height: 48vh;
   padding: 1rem 1.6rem;
   background-color: $lighter-bg-color;
+}
+
+.content__expandable--expanded .content__chart {
+  width: 70%;
+  margin: 0 auto;
 }
 
 .content__options {

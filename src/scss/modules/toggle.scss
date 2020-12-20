@@ -6,7 +6,9 @@
 }
 
 .toggle__btn {
-  padding: 0 2rem;
+  padding: 0;
+  padding-left: 2rem;
+  padding-right: 0;
   height: 2rem;
   margin-right: 3.2rem;
   margin-left: 0.5rem;
@@ -15,11 +17,11 @@
   cursor: pointer;
 
   &--period {
-    width: 15rem;
+    width: 22rem;
   }
 
   &--numbers {
-    width: 18rem;
+    width: 24rem;
   }
 
   &::after {
@@ -36,7 +38,8 @@
   }
 
   &--toggled {
-    padding-left: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
     &::after {
       left: 100%;
       margin-left: -1rem;
@@ -50,7 +53,7 @@
   margin: 0;
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 2rem;
 }
 

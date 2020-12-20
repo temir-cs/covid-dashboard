@@ -18,16 +18,12 @@ export default class Controller {
     }
 
     start() {
-        // this.state.getTotals()
         this.state.init()
             .then(() => {
-                // this.state.getFlagsAndPopulation()
-                //     .then(() => {
                 this.view.renderState();
                 this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
-                // });
             });
     }
 
@@ -49,7 +45,6 @@ export default class Controller {
                 const selectedCriteria = this.chartOptions[radio.getAttribute('id')];
                 console.log('click');
                 this.view.renderGraphs(selectedCriteria);
-                // this.view.renderGraphs(selectedCriteria);
             });
         });
     }
@@ -67,6 +62,5 @@ export default class Controller {
             this.view.renderNumbersToggle(numsToggle);
             this.view.renderDetails();
         });
-        // console.log(this.state.lastUpdated);
     }
 }

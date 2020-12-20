@@ -1,5 +1,6 @@
 import Chart from 'chart.js';
-import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
+// import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
+import MONTH_NAMES from './consts';
 
 export default class View {
     constructor(state) {
@@ -21,7 +22,8 @@ export default class View {
 
     renderDate() {
         const lastUpdated = document.querySelector('.content__accent--date');
-        lastUpdated.innerText = this.state.lastUpdated.slice(0, 10);
+        // console.log(this.state.lastUpdated);
+        lastUpdated.innerText = this.state.lastUpdated.toLocaleDateString('en-GB');
     }
 
     renderGlobalCases() {
@@ -40,30 +42,25 @@ export default class View {
     }
 
     renderLineInCountryList(country) {
-        const flagPath = this.findFlag(country);
         const listItem = document.createElement('li');
         listItem.classList.add('countries__item');
         listItem.innerHTML = `<span class="countries__number">
                     ${country[this.countryMarker].toLocaleString('de-DE')}
                 </span>
                 <span class="countries__name">${country.country}</span>
-                <div class="countries__flag"><img src="${flagPath}"></div>`;
+                <div class="countries__flag"><img src="${country.flagPath}"></div>`;
         return listItem;
     }
 
-    findFlag(country) {
-        // console.log(COUNTRY_NAMES.find((elem) => elem.fromApi === country.country));
-        // console.log(this.state.lastUpdated);
-        // return '';
-        const searchCountry = (COUNTRY_NAMES.find((el) => el.fromApi === country.country))
-            ? COUNTRY_NAMES.find((el) => el.fromApi === country.country).fromFlag : country.country;
-        return this.state.flagsAndPopulation.find((line) => line.name === searchCountry).flag;
-    }
-
     renderDetails() {
-        const cases = (this.detailsIsTotal) ? 'totalConfirmed' : 'newConfirmed';
-        const deaths = (this.detailsIsTotal) ? 'totalDeaths' : 'newDeaths';
-        const recovered = (this.detailsIsTotal) ? 'totalRecovered' : 'newRecovered';
+        let cases = (this.detailsIsTotal) ? 'totalConfirmed' : 'newConfirmed';
+        let deaths = (this.detailsIsTotal) ? 'totalDeaths' : 'newDeaths';
+        let recovered = (this.detailsIsTotal) ? 'totalRecovered' : 'newRecovered';
+        if (!this.detailsIsAbs) {
+            cases = (this.detailsIsTotal) ? 'confirmedPer100K' : 'newConfirmedPer100K';
+            deaths = (this.detailsIsTotal) ? 'deathsPer100K' : 'newDeathsPer100K';
+            recovered = (this.detailsIsTotal) ? 'recoveredPer100K' : 'newRecoveredPer100K';
+        }
 
         const detailsCases = document.querySelector('.stats__number--cases');
         const detailsDeaths = document.querySelector('.stats__number--deaths');
@@ -84,13 +81,14 @@ export default class View {
         const toggle = numsToggle;
         toggle.classList.toggle('toggle__btn--toggled');
         const toggleText = document.querySelector('.toggle__txt--numbers');
-        toggleText.innerText = (this.detailsIsAbs) ? 'Absolute numbers' : 'Incidence Rate';
+        toggleText.innerText = (this.detailsIsAbs) ? 'Absolute numbers' : 'Per 100K';
     }
 
     renderGraphs(selectedCriteria) {
         const key = selectedCriteria || 'dailyConfirmedIncrements';
         const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
         const values = [...this.state.currentGraph[key].values()];
+        // console.log(values);
         if (this.chart) { this.chart.destroy(); }
         const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -111,7 +109,7 @@ export default class View {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
                         },
                     }],
                     xAxes: [{

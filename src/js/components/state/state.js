@@ -1,4 +1,4 @@
-import { REQUEST_OPTIONS, SUMMARY_URL, COUNTRY_URL, FLAGS_URL } from './consts';
+import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL } from './consts';
 import { getJSON, numbersSort } from './utils';
 
 export default class State {
@@ -9,6 +9,15 @@ export default class State {
             totalConfirmed: 0,
             totalRecovered: 0,
             totalDeaths: 0,
+            newConfirmed: 0,
+            newRecovered: 0,
+            newDeaths: 0,
+            confirmedPer100K: 0,
+            recoveredPer100K: 0,
+            deathsPer100K: 0,
+            newConfirmedPer100K: 0,
+            newRecoveredPer100K: 0,
+            newDeathsPer100K: 0,
         };
         this.currentGraph = {
             dailyConfirmedIncrements: null,
@@ -20,94 +29,86 @@ export default class State {
 
     init() {
         return Promise.all([
-            this.getTotals(),
-            this.getDaily(),
-            this.getFlagsAndPopulation()
+            this.getGlobal(),
+            this.getCountries(),
+            this.getGlobalDaily(),
         ]);
     }
 
-    getTotals() {
-        return (getJSON.call(this, SUMMARY_URL, REQUEST_OPTIONS)
+    getGlobal() {
+        return (getJSON.call(this, GLOBAL_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                if (!allData.Message) {
-                    // console.log(allData.Message);
-                    getJSON.call(this, SUMMARY_URL, REQUEST_OPTIONS);
-                }
-
                 // console.log(allData);
-                // this.lastUpdated = allData.Date.slice(0, 10);
-                this.lastUpdated = allData.Date;
-                this.global.totalConfirmed = allData.Global.TotalConfirmed;
-                this.global.totalRecovered = allData.Global.TotalRecovered;
-                this.global.totalDeaths = allData.Global.TotalDeaths;
-                this.global.newConfirmed = allData.Global.NewConfirmed;
-                this.global.newRecovered = allData.Global.NewRecovered;
-                this.global.newDeaths = allData.Global.NewDeaths;
-                allData.Countries.forEach((country) => {
+                this.lastUpdated = new Date();
+                this.global.totalConfirmed = allData.cases;
+                this.global.totalRecovered = allData.recovered;
+                this.global.totalDeaths = allData.deaths;
+                this.global.newConfirmed = allData.todayCases;
+                this.global.newRecovered = allData.todayDeaths;
+                this.global.newDeaths = allData.todayRecovered;
+                this.global.confirmedPer100K = Math.round((this.global.totalConfirmed * 100000) / allData.population);
+                this.global.recoveredPer100K = Math.round((this.global.totalRecovered * 100000) / allData.population);
+                this.global.deathsPer100K = Math.round((this.global.totalDeaths * 100000) / allData.population);
+                this.global.newConfirmedPer100K = Math.round((this.global.newConfirmed * 10000000) / allData.population) / 100;
+                this.global.newRecoveredPer100K = Math.round((this.global.newRecovered * 10000000) / allData.population) / 100;
+                this.global.newDeathsPer100K = Math.round((this.global.newDeaths * 10000000) / allData.population) / 100;
+            }));
+    }
+
+    getCountries() {
+        return (getJSON.call(this, COUNTRY_URL)
+            .then((result) => {
+                const allData = JSON.parse(result);
+                // console.log(allData);
+                allData.forEach((country) => {
                     this.countries.push({
-                        date: country.Date.slice(0, 10),
-                        country: country.Country,
-                        slug: country.Slug,
-                        countryCode: country.CountryCode,
-                        totalConfirmed: country.TotalConfirmed,
-                        totalRecovered: country.TotalDeaths,
-                        totalDeaths: country.TotalRecovered,
-                        newConfirmed: country.NewConfirmed,
-                        newRecovered: country.NewDeaths,
-                        newDeaths: country.NewRecovered,
+                        country: country.country || 0,
+                        flagPath: country.countryInfo.flag,
+                        totalConfirmed: country.cases || 0,
+                        totalRecovered: country.recovered || 0,
+                        totalDeaths: country.deaths || 0,
+                        newConfirmed: country.todayCases || 0,
+                        newRecovered: country.todayRecovered || 0,
+                        newDeaths: country.todayDeaths || 0,
+                        confirmedPer100K: Math.round((country.cases * 100000) / country.population),
+                        recoveredPer100K: Math.round((country.recovered * 100000) / country.population),
+                        deathsPer100K: Math.round((country.deaths * 100000) / country.population),
+                        newConfirmedPer100K: Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100,
+                        newRecoveredPer100K: Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100,
+                        newDeathsPer100K: Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100,
                     });
                 });
                 this.countries = this.countries.sort((a, b) => numbersSort(a.totalConfirmed, b.totalConfirmed));
-                // console.log(this.global);
-                // console.log(this.lastUpdated);
-                // console.log(this.countries[5]);
             }));
     }
 
-    getDaily() {
-        // istead of country should be country.slug to form correct url for country
-        // const country = 'kazakhstan';
-        const country = 'iran';
-        const url = `${COUNTRY_URL}${country}`;
-        // console.log(url);
-
-        return (getJSON.call(this, url, REQUEST_OPTIONS)
+    getGlobalDaily() {
+        return (getJSON.call(this, GLOBAL_DAILY_URL)
             .then((result) => {
                 const dailyStats = JSON.parse(result);
                 // console.log(dailyStats);
-                const dailyConfirmed = new Map();
-                const dailyDeath = new Map();
-                const dailyRecovered = new Map();
-                dailyStats.forEach((line) => {
-                    dailyConfirmed.set(line.Date, line.Confirmed);
-                    dailyDeath.set(line.Date, line.Deaths);
-                    dailyRecovered.set(line.Date, line.Recovered);
-                });
+                const dailyConfirmed = dailyStats.cases;
+                const dailyDeaths = dailyStats.deaths;
+                const dailyRecovered = dailyStats.recovered;
                 this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
-                this.createIncrementsForGraphs(dailyDeath, 'dailyDeathsIncrements');
+                this.createIncrementsForGraphs(dailyDeaths, 'dailyDeathsIncrements');
                 this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
+                // console.log(this.currentGraph);
             }));
     }
 
-    createIncrementsForGraphs(iniMap, key) {
+    createIncrementsForGraphs(iniObj, key) {
         this.currentGraph[key] = new Map();
         let prevDateCases = 0;
-        iniMap.forEach((activeCases, date) => {
-            this.currentGraph[key].set(date, activeCases - prevDateCases);
+        for (const [date, activeCases] of Object.entries(iniObj)) {
+            const value = (activeCases - prevDateCases > 0) ? activeCases - prevDateCases : 0;
+            this.currentGraph[key].set(date, value);
             prevDateCases = activeCases;
-        });
+        }
     }
 
     countriesSort(sortingCriteria) {
         this.countries = this.countries.sort((a, b) => numbersSort(a[sortingCriteria], b[sortingCriteria]));
-    }
-
-    getFlagsAndPopulation() {
-        return (getJSON.call(this, FLAGS_URL)
-            .then((result) => {
-                const data = JSON.parse(result);
-                this.flagsAndPopulation = data;
-            }));
     }
 }

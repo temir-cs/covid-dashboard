@@ -3,13 +3,6 @@ export const REQUEST_OPTIONS = {
     redirect: 'follow',
 };
 
-// префикс https://cors-anywhere.herokuapp.com используем для доступа
-// к данным с других сайтов если браузер возвращает ошибку Cross-Origin Request Blocked
-// from https://codepen.io/irinainina/pen/LYNqmQd
-// const corsPrefix = 'https://cors-anywhere.herokuapp.com/';
-const corsPrefix = '';
-
-export const SUMMARY_URL = `${corsPrefix}https://api.covid19api.com/summary`;
-export const COUNTRY_URL = `${corsPrefix}https://api.covid19api.com/dayone/country/`;
-
-export const FLAGS_URL = 'https://restcountries.eu/rest/v2/all?fields=name;population;flag';
+export const GLOBAL_URL = 'https://disease.sh/v3/covid-19/all?yesterday=false&twoDaysAgo=0&allowNull=true';
+export const COUNTRY_URL = 'https://disease.sh/v3/covid-19/countries?yesterday=false&twoDaysAgo=false&allowNull=true';
+export const GLOBAL_DAILY_URL = 'https://disease.sh/v3/covid-19/historical/all?lastdays=all';

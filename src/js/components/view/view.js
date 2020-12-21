@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import { MONTH_NAMES, WOLRD_BOUNDS } from './consts';
+import { MONTH_NAMES, WORLD_BOUNDS, CHART_TOOLTIPS } from './consts';
 
 const L = require('leaflet');
 
@@ -90,9 +90,9 @@ export default class View {
 
     renderGraphs(selectedCriteria) {
         const key = selectedCriteria || 'dailyConfirmedIncrements';
+        const tooltipTxt = CHART_TOOLTIPS[selectedCriteria] || 'Daily Confirmed Rates';
         const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
         const values = [...this.state.currentGraph[key].values()];
-        // console.log(values);
         if (this.chart) { this.chart.destroy(); }
         const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -110,6 +110,7 @@ export default class View {
             },
             options: {
                 legend: false,
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -122,22 +123,29 @@ export default class View {
                             offsetGridLines: false
                         },
                         ticks: {
-                            maxTicksLimit: 5,
+                            maxTicksLimit: 8,
                             maxRotation: 0,
                             minRotation: 0,
                             callback(value) {
-                                return MONTH_NAMES[parseInt(value.slice(5, 7), 10) - 1];
+                                return MONTH_NAMES[parseInt(value.slice(0, 2), 10) - 1];
                             }
                         }
                     }]
 
+                },
+                tooltips: {
+                    callbacks: {
+                        label(tooltipItem) {
+                            return `${tooltipTxt} ${tooltipItem.yLabel}`;
+                        }
+                    }
                 }
             }
         });
     }
 
     renderMap() {
-        const worldBounds = L.latLngBounds(WOLRD_BOUNDS);
+        const worldBounds = L.latLngBounds(WORLD_BOUNDS);
         this.map = new L.Map('map-container', {
             center: worldBounds.getCenter(),
             zoom: 3,

@@ -1,5 +1,9 @@
 .chart-container {
   padding-top: 1rem;
-  min-height: 24vh;
+  height: 24vh;
   background-color: $inputs-bg-color;
+}
+
+.content__expandable--expanded .chart-container {
+  height: 70vh;
 }

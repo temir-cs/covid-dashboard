@@ -1,6 +1,8 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import MONTH_NAMES from './consts';
+import { MONTH_NAMES, WOLRD_BOUNDS } from './consts';
+
+const L = require('leaflet');
 
 export default class View {
     constructor(state) {
@@ -10,6 +12,7 @@ export default class View {
         this.detailsIsAbs = true;
         this.chartContainer = document.querySelector('.chart-container');
         this.chart = null;
+        this.map = null;
     }
 
     renderState() {
@@ -17,6 +20,7 @@ export default class View {
         this.renderGlobalCases();
         this.renderCountries();
         this.renderDetails();
+        this.renderMap();
         this.renderGraphs();
     }
 
@@ -130,5 +134,83 @@ export default class View {
                 }
             }
         });
+    }
+
+    renderMap() {
+        const worldBounds = L.latLngBounds(WOLRD_BOUNDS);
+        this.map = new L.Map('map-container', {
+            center: worldBounds.getCenter(),
+            zoom: 3,
+            minZoom: 2,
+            maxBounds: worldBounds,
+            maxBoundsViscosity: 0.75,
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '',
+            noWrap: false,
+        }).addTo(this.map);
+
+        setTimeout(() => {
+            this.fixMapSize();
+        }, 100);
+        this.createMapMarkers();
+    }
+
+    createMapMarkers() {
+        const countryPointToLayer = (feature, latlng) => {
+            const { properties } = feature;
+            const {
+                country,
+                totalConfirmed,
+                totalDeaths,
+                totalRecovered,
+            } = properties;
+            const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
+            const html = `
+            <span class="map__marker">
+                <span class="map__tooltip">
+                    <h2 class="map__tooltip-title">${country}</h2>
+                    <ul class="map__tooltip-list">
+                        <li class="map__tooltip-list-item"><strong>Total confirmed:</strong> ${totalConfirmed}</li>
+                        <li class="map__tooltip-list-item"><strong>Total deaths:</strong> ${totalDeaths}</li>
+                        <li class="map__tooltip-list-item"><strong>Total recovered:</strong> ${totalRecovered}</li>
+                    </ul>
+                </span>
+                ${casesStr}
+            </span>`;
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    className: 'icon',
+                    html,
+                }),
+                riseOnHover: true,
+            });
+        };
+
+        const { countries } = this.state;
+        const geoJson = {
+            type: 'FeatureCollection',
+            features: countries.map((country) => {
+                const { lat, long: lng } = country;
+                return {
+                    type: 'Feature',
+                    properties: {
+                        ...country,
+                    },
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [lng, lat],
+                    }
+                };
+            })
+        };
+        const geoJsonLayers = new L.GeoJSON(geoJson, {
+            pointToLayer: countryPointToLayer,
+        });
+        geoJsonLayers.addTo(this.map);
+    }
+
+    fixMapSize() {
+        this.map.invalidateSize();
     }
 }

@@ -172,11 +172,11 @@
     top: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url("../../assets/img/expand_btn.svg");
+    background-image: url("./assets/img/expand_btn.svg");
     background-size: 1.5rem 1.5rem;
     z-index: 998;
 
     &--expanded {
-      background-image: url("../../assets/img/collapse_btn.svg");
+      background-image: url("./assets/img/collapse_btn.svg");
     }
 }

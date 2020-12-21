@@ -5,14 +5,21 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const path = require('path');
 
+const { NODE_ENV } = process.env;
+
 module.exports = {
     entry: {
         index: [path.resolve(__dirname, 'src', 'js/index.js'),
             path.resolve(__dirname, 'src', 'scss/style.scss')],
-
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     module: {
         rules: [
@@ -20,7 +27,7 @@ module.exports = {
                 test: /\.scss$/,
                 exclude: /node_modules/,
                 use: [
-                    'style-loader',
+                    ((NODE_ENV == 'development') ? 'style-loader' : MiniCssExtractPlugin.loader),
                     {
                         loader: 'css-loader',
                         options: {
@@ -58,7 +65,7 @@ module.exports = {
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: './assets/css/style.css',
+            filename: 'style.css',
         }),
         new CleanWebpackPlugin(),
     ],
@@ -69,6 +76,7 @@ module.exports = {
         moment: 'moment'
     },
     performance: {
-        hints: false
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
     }
 };

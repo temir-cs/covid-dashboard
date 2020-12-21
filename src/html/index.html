@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
   <title>Covid dashboard</title>
 </head>
 <body>
@@ -43,6 +46,7 @@
     <div class="content__center  content__expandable">
       <button class="content__expand-btn"></button>
       <div class="content__map">
+        <div class="content__map-container" id="map-container"></div>
         <div class="content__options  options  options--map">
           <input class="options__input" type="radio" name="map-options" id="map-cases" checked="checked" >
           <label for="map-cases" class="options__label">Cases</label>

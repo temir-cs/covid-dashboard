@@ -78,14 +78,14 @@ export default class View {
         const toggle = periodToggle;
         toggle.classList.toggle('toggle__btn--toggled');
         const toggleText = document.querySelector('.toggle__txt--period');
-        toggleText.innerText = (this.detailsIsTotal) ? 'Total period' : 'Last updated date';
+        toggleText.innerText = (this.detailsIsTotal) ? 'Total period' : 'Last updated';
     }
 
     renderNumbersToggle(numsToggle) {
         const toggle = numsToggle;
         toggle.classList.toggle('toggle__btn--toggled');
         const toggleText = document.querySelector('.toggle__txt--numbers');
-        toggleText.innerText = (this.detailsIsAbs) ? 'Absolute numbers' : 'Per 100K';
+        toggleText.innerText = (this.detailsIsAbs) ? 'Absolute' : 'Per 100K';
     }
 
     renderGraphs(selectedCriteria) {

@@ -9,7 +9,7 @@
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
   font-size: 3.2rem;
-  line-height: 3.6rem;
+  line-height: 3.4rem;
   color: $text-color;
   border-bottom: 1px $inputs-bg-color solid;
 
@@ -25,5 +25,22 @@
 }
 
 .stats__tag {
-  margin-left: 2rem;
+  margin-left: 1.4rem;
+}
+
+
+
+
+@media #{$s-desktop-width} {
+  .stats {
+    margin-top: 1.4rem;
+  }
+  
+  .stats__item {
+    padding-top: 0.6rem;
+    padding-bottom: 0.8rem;
+    font-size: 2.6rem;
+    line-height: 3rem;
+  }
+
 }

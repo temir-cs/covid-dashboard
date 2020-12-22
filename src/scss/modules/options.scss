@@ -18,7 +18,14 @@
     width: 40%;
     left: initial;
     right: 0;
+    box-shadow: -0.1rem -0.1rem 0.6rem rgba($map-marker-color, 0.6);
     z-index: 999;
+  }
+
+  &--countries {
+    position: relative;
+    margin-top: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 

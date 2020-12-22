@@ -45,6 +45,19 @@ export default class View {
         });
     }
 
+    renderSearchSuggestions(searchFieldElement, countries) {
+        const suggestionsContainer = searchFieldElement.nextElementSibling;
+        suggestionsContainer.innerHTML = '';
+        if (countries.length === this.state.countries.length) return;
+        countries.forEach((country) => {
+            const countryItem = document.createElement('div');
+            countryItem.classList.add('content__search--item');
+            countryItem.innerHTML = `<span class="countries__flag"><img src="${country.flagPath}"></span>
+                                    <span class="content__search--name">${country.country}</span>`;
+            suggestionsContainer.appendChild(countryItem);
+        });
+    }
+
     renderLineInCountryList(country) {
         const listItem = document.createElement('li');
         listItem.classList.add('countries__item');

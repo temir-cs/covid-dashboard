@@ -24,6 +24,7 @@ export default class Controller {
                 this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
+                this.addListenersToSearchBars();
             });
     }
 
@@ -61,6 +62,17 @@ export default class Controller {
             this.view.detailsIsAbs = !this.view.detailsIsAbs;
             this.view.renderNumbersToggle(numsToggle);
             this.view.renderDetails();
+        });
+    }
+
+    addListenersToSearchBars() {
+        const searchFields = document.querySelectorAll('.content__search');
+        searchFields.forEach((searchField) => {
+            searchField.addEventListener('input', (e) => {
+                const input = e.target.value;
+                const filteredCountries = this.state.getMatchingCountries(input);
+                this.view.renderSearchSuggestions(searchField, filteredCountries);
+            });
         });
     }
 }

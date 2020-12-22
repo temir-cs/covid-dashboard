@@ -114,4 +114,8 @@ export default class State {
     countriesSort(sortingCriteria) {
         this.countries = this.countries.sort((a, b) => numbersSort(a[sortingCriteria], b[sortingCriteria]));
     }
+
+    getMatchingCountries(input) {
+        return this.countries.filter((item) => item.country.toLowerCase().startsWith(input.toLowerCase()));
+    }
 }

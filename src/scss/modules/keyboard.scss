@@ -1,0 +1,26 @@
+.keyboard__visibility-btn {
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 0;
+  padding: 0;
+  background-color: $toggle-circle-color;
+  background-image: url('./assets/img/keyboard-24px.svg');
+  background-repeat: no-repeat;
+  background-size: 2.8rem 2.8rem;
+  background-position: center center;
+
+  margin-left: 0.8rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $country-hover-color;
+  }
+}
+
+
+@media #{$tablet-width} { 
+  .keyboard__visibility-btn {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+}

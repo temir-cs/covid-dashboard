@@ -64,6 +64,7 @@
   &--sm {
     margin: 0;
     margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
     font-size: 1.4rem;
     line-height: 1.6rem;
   }
@@ -87,29 +88,6 @@
     font-size: 5.2rem;
   }
 }
-
-.content__search-block {
-  display: flex;
-  margin-top: 1.2rem;
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
-
-  align-items: center;
-  justify-content: flex-start;
-}
-
-
-.content__search-container {
-  width: 90%;
-}
-
-.content__subtitle-container {
-  display: flex;
-
-  align-items: center;
-  justify-content: flex-start;
-}
-
 
 .content__to-global-btn {
   display: block;
@@ -165,12 +143,46 @@
   line-height: 2.4rem;
 }
 
-.content__search {
+
+.content__search-block {
+  display: flex;
+  margin-top: 1.2rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+.content__subtitle-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+
+.content__add-keyboard {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.content__search-container {
+  width: 80%;
+}
+
+.content__search {
+  width: 98%;
   height: 3.6rem;
-  margin-top: 0.8rem;
+  margin-top: 0;
   margin-left: 0.6rem;
   margin-bottom: 1.2rem;
+  margin-right: 0.2rem;
   padding: 0.6rem 1rem;
   border: 0;
   background-color: $inputs-bg-color;
@@ -178,7 +190,6 @@
   &--countries {
     margin-left: 0;
     margin-bottom: 0;
-    margin-right: 1.5rem;
   }
 
   &--suggestions {
@@ -358,7 +369,7 @@
   .content__subtitle {
     font-size: 2.2rem;
     line-height: 2.4rem;
-    margin-bottom: 0rem;
+    margin-bottom: 0.6rem;
   
     &--mid {
       font-size: 1.8rem;
@@ -396,11 +407,17 @@
     }
   }
 
+  .content__add-keyboard--chart,
+  .content__add-keyboard--details,
+  .content__search-block {
+    display: none;
+  }
+
   
   .content__search {
     width: 100%;
     height: 3.2rem;
-    margin-top: 0.4rem;
+    // margin-top: 0.4rem;
     margin-left: 0.6rem;
     margin-bottom: 0.6rem;
     padding: 0.6rem 1rem;
@@ -424,10 +441,15 @@
     }
   }
 
-  .content__expandable--expanded .content__search--details,
-  .content__expandable--expanded .content__search--chart,  {
+   .content__expandable--expanded .content__add-keyboard,
+   .content__expandable--expanded .content__search-block  {
+    display: flex;
+  }
+
+  .content__expandable--expanded .content__search {
     display: block;
   }
+
   
   .content__note {
     margin-top: 0.6rem;

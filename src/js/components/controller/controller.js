@@ -111,7 +111,8 @@ export default class Controller {
     }
 
     updateAfterToggling() {
-        this.view.renderDetails();
+        const countryName = (this.state.currentCountry) ? this.state.currentCountry.country : null;
+        this.view.renderDetails(countryName);
         const radio = document.querySelector('input[name=countries-options]:checked');
         this.updateCountriesMapMarkersChart(radio);
     }

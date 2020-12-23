@@ -30,7 +30,7 @@ export default class Controller {
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
                 this.addListenersToSearchBars();
-                this.addListenerToMapMarkers();
+                this.addListenersToMapMarkers();
             });
     }
 
@@ -86,6 +86,7 @@ export default class Controller {
 
         this.state.countriesSort(sortingCriteria);
         this.view.renderCountries(sortingCriteria);
+        this.view.renderMapMarkers(sortingCriteria);
         this.addListenersToCountriesList();
     }
     // ----- END add
@@ -144,7 +145,7 @@ export default class Controller {
         });
     }
 
-    addListenerToMapMarkers() {
+    addListenersToMapMarkers() {
         const mapMarkers = document.querySelectorAll('.map__marker');
         mapMarkers.forEach((marker) => {
             marker.addEventListener('click', () => {

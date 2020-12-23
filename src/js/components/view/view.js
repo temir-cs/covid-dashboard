@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS } from './consts';
+import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS, DATA_TOOLTIPS } from './consts';
 
 const L = require('leaflet');
 
@@ -13,6 +13,7 @@ export default class View {
         this.chartContainer = document.querySelector('.chart-container');
         this.chart = null;
         this.map = null;
+        this.markersLayerGroup = new L.LayerGroup();
         this.countries = [];
         this.returnToGlobalBtns = document.querySelectorAll('.content__to-global-btn');
         this.expandBtns = document.querySelectorAll('.content__expand-btn');
@@ -227,36 +228,33 @@ export default class View {
         this.renderMapLegend();
     }
 
-    renderMapMarkers() {
+    renderMapMarkers(selectedCriteria) {
+        const criteria = selectedCriteria || 'totalConfirmed';
         const countryPointToLayer = (feature, latlng) => {
             const { properties } = feature;
-            const {
-                country,
-                totalConfirmed,
-                totalDeaths,
-                totalRecovered,
-            } = properties;
-            const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
-            const level = this.state.getSpreadSpeedLevel(country);
+            const countryName = properties.country;
+            const data = properties[criteria];
+            const casesStr = `${data > 1000 ? `${`${data}`.slice(0, -3)}k` : data}`;
+            const level = this.state.getSpreadSpeedLevel(countryName, criteria);
+            const dataTitle = DATA_TOOLTIPS[criteria];
             const html = `
-            <span class="map__marker map__marker--${level}" id="${country}">
+            <span class="map__marker map__marker--${level}" id="${countryName}">
                 <span class="map__tooltip">
-                    <h2 class="map__tooltip-title">${country}</h2>
+                    <h2 class="map__tooltip-title">${countryName}</h2>
                     <ul class="map__tooltip-list">
-                        <li class="map__tooltip-list-item"><strong>Total confirmed:</strong> ${totalConfirmed}</li>
-                        <li class="map__tooltip-list-item"><strong>Total deaths:</strong> ${totalDeaths}</li>
-                        <li class="map__tooltip-list-item"><strong>Total recovered:</strong> ${totalRecovered}</li>
+                        <li class="map__tooltip-list-item"><strong>${dataTitle}:</strong> ${data.toLocaleString('de-DE')}</li>
                     </ul>
                 </span>
                 ${casesStr}
             </span>`;
-            return L.marker(latlng, {
+            const marker = L.marker(latlng, {
                 icon: L.divIcon({
                     className: 'icon',
                     html,
                 }),
                 riseOnHover: true,
             });
+            return marker;
         };
 
         const { countries } = this.state;
@@ -279,7 +277,9 @@ export default class View {
         const geoJsonLayers = new L.GeoJSON(geoJson, {
             pointToLayer: countryPointToLayer,
         });
-        geoJsonLayers.addTo(this.map);
+
+        this.markersLayerGroup.clearLayers();
+        this.markersLayerGroup.addLayer(geoJsonLayers).addTo(this.map);
     }
 
     renderMapLegend() {

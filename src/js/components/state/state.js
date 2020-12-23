@@ -80,8 +80,6 @@ export default class State {
                         // Location info
                         lat: country.countryInfo.lat || 0,
                         long: country.countryInfo.long || 0,
-                        // Spread ratio
-                        spreadRatio: (country.cases * 10000) / country.population,
                     });
                 });
                 this.countries = this.countries.sort((a, b) => numbersSort(a.totalConfirmed, b.totalConfirmed));
@@ -142,10 +140,10 @@ export default class State {
         return [lat, long];
     }
 
-    getSpreadSpeedLevel(countryName) {
+    getSpreadSpeedLevel(countryName, selectedCriteria) {
         const currentCountry = this.findCountry(countryName);
-        const currentValue = currentCountry.spreadRatio;
-        const allValues = this.countries.map((country) => country.spreadRatio);
+        const currentValue = currentCountry[selectedCriteria];
+        const allValues = this.countries.map((country) => country[selectedCriteria]);
         const dataRange = getDataRange(allValues, TOTAL_SPREAD_SPEED_LEVELS);
         const ratio = classifyByRange(currentValue, dataRange);
         return ratio;

@@ -38,6 +38,9 @@ export default class Controller {
             const countryName = country.country;
             clickableItem.addEventListener('click', () => {
                 this.changeDataAccordingToCountry(countryName);
+                const coordinates = this.state.getCountryCoordinates(countryName);
+                this.view.poisitionMap(coordinates);
+                this.view.clearAllSearchSuggestions();
             });
         });
     }
@@ -57,6 +60,7 @@ export default class Controller {
         this.view.returnToGlobalBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
                 this.changeDataAccordingToCountry();
+                this.view.poisitionMap();
             });
         });
     }

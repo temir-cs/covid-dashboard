@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import { MONTH_NAMES, WORLD_BOUNDS, CHART_TOOLTIPS } from './consts';
+import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, FLY_TO_COUNTRY_ZOOM, CHART_TOOLTIPS } from './consts';
 import { getSeverityCoefficient } from '../state/utils';
 
 const L = require('leaflet');
@@ -211,7 +211,7 @@ export default class View {
         const worldBounds = L.latLngBounds(WORLD_BOUNDS);
         this.map = new L.Map('map-container', {
             center: worldBounds.getCenter(),
-            zoom: 3,
+            zoom: DEFAULT_MAP_ZOOM,
             minZoom: 2,
             maxBounds: worldBounds,
             maxBoundsViscosity: 0.75,
@@ -283,8 +283,13 @@ export default class View {
     }
 
     poisitionMap(coordinates) {
-        const [lat, lng] = coordinates;
-        this.map.flyTo(new L.LatLng(lat, lng), 4.5);
+        if (coordinates) {
+            const [lat, lng] = coordinates;
+            this.map.flyTo(new L.LatLng(lat, lng), FLY_TO_COUNTRY_ZOOM);
+        } else {
+            const center = L.latLngBounds(WORLD_BOUNDS).getCenter();
+            this.map.flyTo(center, DEFAULT_MAP_ZOOM);
+        }
     }
 
     fixMapSize() {

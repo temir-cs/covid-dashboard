@@ -1,6 +1,7 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
 import { MONTH_NAMES, WORLD_BOUNDS, CHART_TOOLTIPS } from './consts';
+import { getSeverityCoefficient } from '../state/utils';
 
 const L = require('leaflet');
 
@@ -45,6 +46,17 @@ export default class View {
         });
     }
 
+    renderLineInCountryList(country) {
+        const listItem = document.createElement('li');
+        listItem.classList.add('countries__item');
+        listItem.innerHTML = `<span class="countries__number">
+                    ${country[this.countryMarker].toLocaleString('de-DE')}
+                </span>
+                <span class="countries__name">${country.country}</span>
+                <div class="countries__flag"><img src="${country.flagPath}"></div>`;
+        return listItem;
+    }
+
     renderSearchSuggestions(searchFieldElement, countries) {
         const suggestionsContainer = searchFieldElement.nextElementSibling;
         suggestionsContainer.innerHTML = '';
@@ -56,17 +68,6 @@ export default class View {
                                     <span class="content__search--name">${country.country}</span>`;
             suggestionsContainer.appendChild(countryItem);
         });
-    }
-
-    renderLineInCountryList(country) {
-        const listItem = document.createElement('li');
-        listItem.classList.add('countries__item');
-        listItem.innerHTML = `<span class="countries__number">
-                    ${country[this.countryMarker].toLocaleString('de-DE')}
-                </span>
-                <span class="countries__name">${country.country}</span>
-                <div class="countries__flag"><img src="${country.flagPath}"></div>`;
-        return listItem;
     }
 
     renderDetails() {
@@ -187,8 +188,9 @@ export default class View {
                 totalRecovered,
             } = properties;
             const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
+            const severity = getSeverityCoefficient(totalConfirmed);
             const html = `
-            <span class="map__marker">
+            <span class="map__marker map__marker--${severity}">
                 <span class="map__tooltip">
                     <h2 class="map__tooltip-title">${country}</h2>
                     <ul class="map__tooltip-list">

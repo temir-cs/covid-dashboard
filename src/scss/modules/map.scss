@@ -16,60 +16,60 @@
     background-image: url("./assets/img/map_marker_bg.svg");
     color: black;
 
-    &--00 {
+    &--0 {
         background-image: url("./assets/img/map_marker_bg.svg");
         color: black;
     }
 
-    &--01 {
+    &--1 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.1), rgba($map-marker-color, 0.1)), 
                            url("./assets/img/map_marker_bg.svg");
         color: black;
     }
   
-    &--02 {
+    &--2 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.2), rgba($map-marker-color, 0.2)), 
                            url("./assets/img/map_marker_bg.svg");
          color: black;
    }
   
-    &--03 {
+    &--3 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.3), rgba($map-marker-color, 0.3)), 
                            url("./assets/img/map_marker_bg.svg");
         color: black;
     }
   
-    &--04 {
+    &--4 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.4), rgba($map-marker-color, 0.4)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;
     }
   
-    &--05 {
+    &--5 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.5), rgba($map-marker-color, 0.5)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;
     }
   
-    &--06 {
+    &--6 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.6), rgba($map-marker-color, 0.6)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;
     }
   
-    &--07 {
+    &--7 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.7), rgba($map-marker-color, 0.7)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;
     }
   
-    &--08 {
+    &--8 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.8), rgba($map-marker-color, 0.8)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;
     }
   
-    &--09 {
+    &--9 {
         background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.9), rgba($map-marker-color, 0.9)), 
                            url("./assets/img/map_marker_bg.svg");
         color: white;

@@ -60,7 +60,7 @@ export default class State {
         return (getJSON.call(this, COUNTRY_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                // console.log(allData);
+                console.log(allData);
                 allData.forEach((country) => {
                     this.countries.push({
                         country: country.country || 0,
@@ -77,7 +77,7 @@ export default class State {
                         newConfirmedPer100K: Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100,
                         newRecoveredPer100K: Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100,
                         newDeathsPer100K: Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100,
-                        // ADDED THIS
+                        // Location info
                         lat: country.countryInfo.lat || 0,
                         long: country.countryInfo.long || 0,
                     });

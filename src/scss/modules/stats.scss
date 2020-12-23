@@ -42,5 +42,19 @@
     font-size: 2.6rem;
     line-height: 3rem;
   }
+}
 
+
+
+@media #{$tablet-width} { 
+  .stats {
+    margin-top: 1rem;
+  }
+  
+  .stats__item {
+    padding-top: 0.6rem;
+    padding-bottom: 0.8rem;
+    font-size: 2rem;
+    line-height: 2.4rem;
+  }
 }

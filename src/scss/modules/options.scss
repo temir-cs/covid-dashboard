@@ -18,6 +18,7 @@
     width: 40%;
     left: initial;
     right: 0;
+    bottom: 0;
     box-shadow: -0.1rem -0.1rem 0.6rem rgba($map-marker-color, 0.6);
     z-index: 999;
   }
@@ -66,3 +67,25 @@
     cursor: initial;
   }
 } 
+
+
+
+@media #{$tablet-width} { 
+  .options {
+  
+    &--chart {
+      margin-top: 1.5rem;
+    }
+  
+    &--map {
+      width: 70%;
+      z-index: 999;
+    }
+  
+    &--countries {
+      margin-top: 1rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+}

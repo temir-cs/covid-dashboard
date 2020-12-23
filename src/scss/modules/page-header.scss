@@ -15,12 +15,29 @@
   font-size: 3.6rem;
   line-height: 4.2rem;
   color: $text-color;
-  // outline: 1px red solid;
 }
 
 .page-header__remark {
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400; 
   font-size: 1.6rem;
-  line-height: 4.2rem;
+  line-height: 1.8rem;
+}
+
+
+@media #{$tablet-width} { 
+  .page-header {
+    height: 8vh;
+    padding-left: 1.6rem;
+  }
+
+  .page-header__title {
+    padding-top: 0.6rem;
+    font-size: 3.2rem;
+    line-height: 3.6rem;
+  }
+  
+  .page-header__remark {
+    display: none;
+  }
 }

@@ -35,3 +35,12 @@
     font-weight: 700; 
   }
 }
+
+
+@media #{$tablet-width} {
+  .page-footer {
+    height: 4.8rem;
+    padding: 1rem;
+
+  }
+}

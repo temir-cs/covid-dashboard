@@ -31,3 +31,5 @@ export const DATA_TOOLTIPS = {
     newRecoveredPer100K: 'New recovered per 100K',
     newDeathsPer100K: 'New deaths per 100K',
 };
+
+export const TABLET_WIDTH = 979;

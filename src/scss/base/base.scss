@@ -13,7 +13,7 @@ html {
     font-size: 50%;
   }
 
-  @media #{$mobile-width} {
+  @media #{$tablet-width} {
     font-size: 62.5%;
   }
 }
@@ -25,7 +25,10 @@ body {
 
   display: flex;
   flex-direction: column;
-  // justify-content: ;
+  @media #{$tablet-width} {
+    overflow-x: hidden;
+  }
+
 }
 
 img {

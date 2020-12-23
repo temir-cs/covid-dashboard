@@ -1,6 +1,5 @@
 import Chart from 'chart.js';
-// import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS, DATA_TOOLTIPS } from './consts';
+import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS, DATA_TOOLTIPS, TABLET_WIDTH } from './consts';
 
 const L = require('leaflet');
 
@@ -23,6 +22,8 @@ export default class View {
     }
 
     renderState() {
+        const loader = document.querySelector('.loader');
+        loader.classList.add('loader--hidden');
         this.renderDate();
         this.renderGlobalCases();
         this.renderCountries();
@@ -325,6 +326,9 @@ export default class View {
         const parent = btn.parentNode;
         parent.classList.toggle('content__expandable--expanded');
         btn.classList.toggle('content__expand-btn--expanded');
+        if (document.body.offsetWidth < TABLET_WIDTH) {
+            window.scrollTo(0, 0);
+        }
         if (parent.classList.contains('content__center')) {
             setTimeout(() => {
                 this.fixMapSize();

@@ -19,6 +19,7 @@ export default class View {
         this.expandBtns = document.querySelectorAll('.content__expand-btn');
         this.searchSuggestionsContainers = document.querySelectorAll('.content__search--suggestions');
         this.searchBars = document.querySelectorAll('.content__search');
+        this.options = document.querySelectorAll('input[type=radio]');
     }
 
     renderState() {
@@ -186,7 +187,7 @@ export default class View {
                             offsetGridLines: false
                         },
                         ticks: {
-                            maxTicksLimit: 8,
+                            maxTicksLimit: 6,
                             maxRotation: 0,
                             minRotation: 0,
                             callback(value) {
@@ -326,9 +327,16 @@ export default class View {
         btn.classList.toggle('content__expand-btn--expanded');
         if (parent.classList.contains('content__center')) {
             setTimeout(() => {
-                // --- need to fix map configs in fullscreen mode
                 this.fixMapSize();
             }, 100);
         }
+    }
+
+    updateOptions(radio) {
+        const checkedOption = radio.getAttribute('data-label');
+        this.options.forEach((opt) => {
+            const option = opt;
+            option.checked = (option.dataset.label === checkedOption);
+        });
     }
 }

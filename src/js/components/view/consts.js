@@ -9,9 +9,12 @@ export const DEFAULT_MAP_ZOOM = 3;
 export const DEFAULT_COUNTRY_ZOOM = 4.5;
 
 export const CHART_TOOLTIPS = {
-    dailyConfirmed: 'Daily Confirmed Rates',
-    dailyDeaths: 'Daily Deaths Rates',
-    dailyRecovered: 'Daily Recovered Rates'
+    dailyConfirmedIncrements: 'Daily Confirmed Rates',
+    dailyRecoveredIncrements: 'Daily Deaths Rates',
+    dailyDeathsIncrements: 'Daily Recovered Rates',
+    dailyConfirmedPer100KIncrements: 'Daily Confirmed per 100K',
+    dailyDeathsPer100KIncrements: 'Daily Deaths per 100K',
+    dailyRecoveredPer100KIncrements: 'Daily Recovered per 100K'
 };
 
 export const DATA_TOOLTIPS = {

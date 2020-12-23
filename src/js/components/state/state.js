@@ -6,6 +6,7 @@ export default class State {
         this.lastUpdated = null;
         this.countries = [];
         this.global = {
+            population: 0,
             totalConfirmed: 0,
             totalRecovered: 0,
             totalDeaths: 0,
@@ -23,6 +24,9 @@ export default class State {
             dailyConfirmedIncrements: null,
             dailyDeathsIncrements: null,
             dailyRecoveredIncrements: null,
+            dailyConfirmedPer100KIncrements: null,
+            dailyDeathsPer100KIncrements: null,
+            dailyRecoveredPer100KIncrements: null
         };
         this.currentCountry = null;
     }
@@ -39,8 +43,8 @@ export default class State {
         return (getJSON.call(this, GLOBAL_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                // console.log(allData);
                 this.lastUpdated = new Date();
+                this.global.population = allData.population;
                 this.global.totalConfirmed = allData.cases;
                 this.global.totalRecovered = allData.recovered;
                 this.global.totalDeaths = allData.deaths;
@@ -60,10 +64,10 @@ export default class State {
         return (getJSON.call(this, COUNTRY_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                // console.log(allData);
                 allData.forEach((country) => {
                     this.countries.push({
                         country: country.country || 0,
+                        population: country.population || 0,
                         flagPath: country.countryInfo.flag,
                         totalConfirmed: country.cases || 0,
                         totalRecovered: country.recovered || 0,
@@ -71,12 +75,15 @@ export default class State {
                         newConfirmed: country.todayCases || 0,
                         newRecovered: country.todayRecovered || 0,
                         newDeaths: country.todayDeaths || 0,
-                        confirmedPer100K: Math.round((country.cases * 100000) / country.population),
-                        recoveredPer100K: Math.round((country.recovered * 100000) / country.population),
-                        deathsPer100K: Math.round((country.deaths * 100000) / country.population),
-                        newConfirmedPer100K: Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100,
-                        newRecoveredPer100K: Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100,
-                        newDeathsPer100K: Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100,
+                        confirmedPer100K: (country.population) ? Math.round((country.cases * 100000) / country.population) : 0,
+                        recoveredPer100K: (country.population) ? Math.round((country.recovered * 100000 || 0) / country.population) : 0,
+                        deathsPer100K: (country.population) ? Math.round((country.deaths * 100000 || 0) / country.population) : 0,
+                        newConfirmedPer100K: (country.population)
+                            ? Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100 : 0,
+                        newRecoveredPer100K: (country.population)
+                            ? Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100 : 0,
+                        newDeathsPer100K: (country.population)
+                            ? Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100 : 0,
                         // Location info
                         lat: country.countryInfo.lat || 0,
                         long: country.countryInfo.long || 0,
@@ -98,17 +105,21 @@ export default class State {
         const dailyConfirmed = dailyStats.cases;
         const dailyDeaths = dailyStats.deaths;
         const dailyRecovered = dailyStats.recovered;
-        this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
-        this.createIncrementsForGraphs(dailyDeaths, 'dailyDeathsIncrements');
-        this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
+        this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements', 'dailyConfirmedPer100KIncrements');
+        this.createIncrementsForGraphs(dailyDeaths, 'dailyDeathsIncrements', 'dailyDeathsPer100KIncrements');
+        this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements', 'dailyRecoveredPer100KIncrements');
     }
 
-    createIncrementsForGraphs(iniObj, key) {
-        this.currentGraph[key] = new Map();
+    createIncrementsForGraphs(iniObj, absKey, key100K) {
+        this.currentGraph[absKey] = new Map();
+        this.currentGraph[key100K] = new Map();
+        const population = (this.currentCountry) ? this.currentCountry.population : this.global.population;
         let prevDateCases = 0;
         for (const [date, activeCases] of Object.entries(iniObj)) {
             const value = (activeCases - prevDateCases > 0) ? activeCases - prevDateCases : 0;
-            this.currentGraph[key].set(date, value);
+            const value100K = Math.round(((value || 0) * 10000000) / population) / 100 || 0;
+            this.currentGraph[absKey].set(date, value);
+            this.currentGraph[key100K].set(date, value100K);
             prevDateCases = activeCases;
         }
     }

@@ -5,17 +5,15 @@ export default class Controller {
     constructor() {
         this.state = new State();
         this.view = new View(this.state);
-        this.countriesOptions = {
-            // ----- add
-            'countries-cases': ['totalConfirmed', 'newConfirmed'],
-            'countries-recovered': ['totalRecovered', 'newRecovered'],
-            'countries-deaths': ['totalDeaths', 'newDeaths'],
-            // ----- END add
+        this.options = {
+            cases: ['totalConfirmed', 'newConfirmed', 'confirmedPer100K', 'newConfirmedPer100K'],
+            recovered: ['totalRecovered', 'newRecovered', 'recoveredPer100K', 'newRecoveredPer100K'],
+            deaths: ['totalDeaths', 'newDeaths', 'deathsPer100K', 'newDeathsPer100K'],
         };
         this.chartOptions = {
-            'chart-cases': 'dailyConfirmedIncrements',
-            'chart-recovered': 'dailyRecoveredIncrements',
-            'chart-deaths': 'dailyDeathsIncrements',
+            cases: ['dailyConfirmedIncrements', 'dailyConfirmedPer100KIncrements'],
+            recovered: ['dailyRecoveredIncrements', 'dailyRecoveredPer100KIncrements'],
+            deaths: ['dailyDeathsIncrements', 'dailyDeathsPer100KIncrements'],
         };
     }
 
@@ -26,9 +24,8 @@ export default class Controller {
                 this.addListenersToCountriesList();
                 this.addListenersToReturnToGlobalBtns();
                 this.addListenersToExpandBtns();
-                this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
-                this.addListenersToChartOptions();
+                this.addListenersToOptions();
                 this.addListenersToSearchBars();
                 this.addListenersToMapMarkers();
             });
@@ -68,35 +65,32 @@ export default class Controller {
         });
     }
 
-    addListenersToCountriesOptions() {
-        const countriesOptions = document.querySelectorAll('input[name=countries-options]');
-        countriesOptions.forEach((radio) => {
-            radio.addEventListener('click', () => {
-                // ----- add
-                this.updateCountriesList(radio);
-                // ----- END add
-            });
-        });
-    }
-
-    // ----- add
-    updateCountriesList(radio) {
-        const sortingCriteria = (this.view.detailsIsTotal)
-            ? this.countriesOptions[radio.getAttribute('id')][0] : this.countriesOptions[radio.getAttribute('id')][1];
+    updateCountriesAndMapMarkers(radio) {
+        let sortingCriteria;
+        let chartCriteria;
+        const checkedOption = radio.getAttribute('data-label');
+        const [totalAbs, newAbs, totalPer100, newPer100] = this.options[checkedOption];
+        const [totalIncrements, per100KIncrements] = this.chartOptions[checkedOption];
+        if (this.view.detailsIsAbs) {
+            sortingCriteria = (this.view.detailsIsTotal) ? totalAbs : newAbs;
+            chartCriteria = totalIncrements;
+        } else {
+            sortingCriteria = (this.view.detailsIsTotal) ? totalPer100 : newPer100;
+            chartCriteria = per100KIncrements;
+        }
 
         this.state.countriesSort(sortingCriteria);
         this.view.renderCountries(sortingCriteria);
         this.view.renderMapMarkers(sortingCriteria);
+        this.view.renderChart(chartCriteria);
         this.addListenersToCountriesList();
     }
-    // ----- END add
 
-    addListenersToChartOptions() {
-        const countriesOptions = document.querySelectorAll('input[name=chart-options]');
-        countriesOptions.forEach((radio) => {
+    addListenersToOptions() {
+        this.view.options.forEach((radio) => {
             radio.addEventListener('click', () => {
-                const selectedCriteria = this.chartOptions[radio.getAttribute('id')];
-                this.view.renderChart(selectedCriteria);
+                this.view.updateOptions(radio);
+                this.updateCountriesAndMapMarkers(radio);
             });
         });
     }
@@ -107,17 +101,19 @@ export default class Controller {
         periodToggle.addEventListener('click', () => {
             this.view.detailsIsTotal = !this.view.detailsIsTotal;
             this.view.renderPeriodToggle(periodToggle);
-            this.view.renderDetails();
-            // ----- add
-            const radio = document.querySelector('input[name=countries-options]:checked');
-            this.updateCountriesList(radio);
-            // ----- END add
+            this.updateAfterToggling();
         });
         numsToggle.addEventListener('click', () => {
             this.view.detailsIsAbs = !this.view.detailsIsAbs;
             this.view.renderNumbersToggle(numsToggle);
-            this.view.renderDetails();
+            this.updateAfterToggling();
         });
+    }
+
+    updateAfterToggling() {
+        this.view.renderDetails();
+        const radio = document.querySelector('input[name=countries-options]:checked');
+        this.updateCountriesAndMapMarkers(radio);
     }
 
     addListenersToSearchBars() {

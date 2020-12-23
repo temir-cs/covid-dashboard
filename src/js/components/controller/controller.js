@@ -6,9 +6,11 @@ export default class Controller {
         this.state = new State();
         this.view = new View(this.state);
         this.countriesOptions = {
-            'countries-cases': 'totalConfirmed',
-            'countries-recovered': 'totalRecovered',
-            'countries-deaths': 'totalDeaths',
+            // ----- add
+            'countries-cases': ['totalConfirmed', 'newConfirmed'],
+            'countries-recovered': ['totalRecovered', 'newRecovered'],
+            'countries-deaths': ['totalDeaths', 'newDeaths'],
+            // ----- END add
         };
         this.chartOptions = {
             'chart-cases': 'dailyConfirmedIncrements',
@@ -70,13 +72,23 @@ export default class Controller {
         const countriesOptions = document.querySelectorAll('input[name=countries-options]');
         countriesOptions.forEach((radio) => {
             radio.addEventListener('click', () => {
-                const sortingCriteria = this.countriesOptions[radio.getAttribute('id')];
-                this.state.countriesSort(sortingCriteria);
-                this.view.renderCountries(sortingCriteria);
-                this.addListenersToCountriesList();
+                // ----- add
+                this.updateCountriesList(radio);
+                // ----- END add
             });
         });
     }
+
+    // ----- add
+    updateCountriesList(radio) {
+        const sortingCriteria = (this.view.detailsIsTotal)
+            ? this.countriesOptions[radio.getAttribute('id')][0] : this.countriesOptions[radio.getAttribute('id')][1];
+
+        this.state.countriesSort(sortingCriteria);
+        this.view.renderCountries(sortingCriteria);
+        this.addListenersToCountriesList();
+    }
+    // ----- END add
 
     addListenersToChartOptions() {
         const countriesOptions = document.querySelectorAll('input[name=chart-options]');
@@ -95,6 +107,10 @@ export default class Controller {
             this.view.detailsIsTotal = !this.view.detailsIsTotal;
             this.view.renderPeriodToggle(periodToggle);
             this.view.renderDetails();
+            // ----- add
+            const radio = document.querySelector('input[name=countries-options]:checked');
+            this.updateCountriesList(radio);
+            // ----- END add
         });
         numsToggle.addEventListener('click', () => {
             this.view.detailsIsAbs = !this.view.detailsIsAbs;

@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
-import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, FLY_TO_COUNTRY_ZOOM, CHART_TOOLTIPS } from './consts';
+import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS } from './consts';
 import { getSeverityCoefficient } from '../state/utils';
 
 const L = require('leaflet');
@@ -239,7 +239,7 @@ export default class View {
             const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
             const severity = getSeverityCoefficient(totalConfirmed);
             const html = `
-            <span class="map__marker map__marker--${severity}">
+            <span class="map__marker map__marker--${severity}" id="${country.toLowerCase()}-marker">
                 <span class="map__tooltip">
                     <h2 class="map__tooltip-title">${country}</h2>
                     <ul class="map__tooltip-list">
@@ -282,18 +282,26 @@ export default class View {
         geoJsonLayers.addTo(this.map);
     }
 
-    poisitionMap(coordinates) {
+    poisitionMapAndPulse(coordinates) {
         if (coordinates) {
             const [lat, lng] = coordinates;
-            this.map.flyTo(new L.LatLng(lat, lng), FLY_TO_COUNTRY_ZOOM);
+            this.map.flyTo(new L.LatLng(lat, lng), DEFAULT_COUNTRY_ZOOM);
+            this.pulseCountryMarker();
         } else {
             const center = L.latLngBounds(WORLD_BOUNDS).getCenter();
             this.map.flyTo(center, DEFAULT_MAP_ZOOM);
         }
+        console.log('Current country: ', this.state.currentCountry);
     }
 
     fixMapSize() {
         this.map.invalidateSize();
+    }
+
+    pulseCountryMarker() {
+        const marker = document.getElementById(`${this.state.currentCountry.country.toLowerCase()}-marker`);
+        marker.classList.add('pulse');
+        setTimeout(() => marker.classList.remove('pulse'), 3000);
     }
 
     toggleExpandBlock(btn) {

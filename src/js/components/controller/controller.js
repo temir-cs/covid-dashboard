@@ -65,7 +65,7 @@ export default class Controller {
         });
     }
 
-    updateCountriesAndMapMarkers(radio) {
+    updateCountriesMapMarkersChart(radio) {
         let sortingCriteria;
         let chartCriteria;
         const checkedOption = radio.getAttribute('data-label');
@@ -90,7 +90,7 @@ export default class Controller {
         this.view.options.forEach((radio) => {
             radio.addEventListener('click', () => {
                 this.view.updateOptions(radio);
-                this.updateCountriesAndMapMarkers(radio);
+                this.updateCountriesMapMarkersChart(radio);
             });
         });
     }
@@ -113,7 +113,7 @@ export default class Controller {
     updateAfterToggling() {
         this.view.renderDetails();
         const radio = document.querySelector('input[name=countries-options]:checked');
-        this.updateCountriesAndMapMarkers(radio);
+        this.updateCountriesMapMarkersChart(radio);
     }
 
     addListenersToSearchBars() {

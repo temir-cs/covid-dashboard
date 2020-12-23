@@ -1,5 +1,6 @@
 import State from '../state/state';
 import View from '../view/view';
+import Keyboard from '../virtual-keyboard/Keyboard';
 
 export default class Controller {
     constructor() {
@@ -15,6 +16,7 @@ export default class Controller {
             recovered: ['dailyRecoveredIncrements', 'dailyRecoveredPer100KIncrements'],
             deaths: ['dailyDeathsIncrements', 'dailyDeathsPer100KIncrements'],
         };
+        this.keyboard = new Keyboard();
     }
 
     start() {
@@ -28,6 +30,7 @@ export default class Controller {
                 this.addListenersToOptions();
                 this.addListenersToSearchBars();
                 this.addListenersToMapMarkers();
+                this.keyboard.init('en').generateLayout();
             });
     }
 
@@ -53,6 +56,7 @@ export default class Controller {
                 const coordinates = this.state.getCountryCoordinates(countryName);
                 this.view.poisitionMapAndPulse(coordinates);
                 this.view.clearAllSearchSuggestions();
+                this.keyboard.hideKeyboard();
             });
     }
 
@@ -125,6 +129,9 @@ export default class Controller {
                 const filteredCountries = this.state.getMatchingCountries(input);
                 this.view.renderSearchSuggestions(searchField, filteredCountries);
                 this.addListenersToSearchSuggestions();
+            });
+            searchField.addEventListener('click', () => {
+                this.keyboard.setOutputField(searchField);
             });
         });
     }

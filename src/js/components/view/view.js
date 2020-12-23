@@ -239,7 +239,7 @@ export default class View {
             const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
             const severity = getSeverityCoefficient(totalConfirmed);
             const html = `
-            <span class="map__marker map__marker--${severity}" id="${country.toLowerCase()}-marker">
+            <span class="map__marker map__marker--${severity}" id="${country}">
                 <span class="map__tooltip">
                     <h2 class="map__tooltip-title">${country}</h2>
                     <ul class="map__tooltip-list">
@@ -291,7 +291,6 @@ export default class View {
             const center = L.latLngBounds(WORLD_BOUNDS).getCenter();
             this.map.flyTo(center, DEFAULT_MAP_ZOOM);
         }
-        console.log('Current country: ', this.state.currentCountry);
     }
 
     fixMapSize() {
@@ -299,7 +298,7 @@ export default class View {
     }
 
     pulseCountryMarker() {
-        const marker = document.getElementById(`${this.state.currentCountry.country.toLowerCase()}-marker`);
+        const marker = document.getElementById(`${this.state.currentCountry.country}`);
         marker.classList.add('pulse');
         setTimeout(() => marker.classList.remove('pulse'), 3000);
     }

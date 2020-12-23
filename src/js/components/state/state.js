@@ -135,6 +135,7 @@ export default class State {
     }
 
     getCountryCoordinates(countryName) {
+        if (!countryName) return undefined;
         const { lat, long } = this.findCountry(countryName);
         return [lat, long];
     }

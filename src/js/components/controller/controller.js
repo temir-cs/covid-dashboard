@@ -28,6 +28,7 @@ export default class Controller {
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
                 this.addListenersToSearchBars();
+                this.addListenerToMapMarkers();
             });
     }
 
@@ -38,9 +39,6 @@ export default class Controller {
             const countryName = country.country;
             clickableItem.addEventListener('click', () => {
                 this.changeDataAccordingToCountry(countryName);
-                const coordinates = this.state.getCountryCoordinates(countryName);
-                this.view.poisitionMapAndPulse(coordinates);
-                this.view.clearAllSearchSuggestions();
             });
         });
     }
@@ -53,6 +51,9 @@ export default class Controller {
                 this.addListenersToCountriesList();
                 this.view.renderDetails(countryName);
                 this.view.updateCountryNameInDetailsAndCharts();
+                const coordinates = this.state.getCountryCoordinates(countryName);
+                this.view.poisitionMapAndPulse(coordinates);
+                this.view.clearAllSearchSuggestions();
             });
     }
 
@@ -123,9 +124,17 @@ export default class Controller {
             country.addEventListener('click', () => {
                 const countryName = country.lastChild.innerText;
                 this.changeDataAccordingToCountry(countryName);
-                const coordinates = this.state.getCountryCoordinates(countryName);
-                this.view.poisitionMapAndPulse(coordinates);
-                this.view.clearAllSearchSuggestions();
+            });
+        });
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    addListenerToMapMarkers() {
+        const mapMarkers = document.querySelectorAll('.map__marker');
+        mapMarkers.forEach((marker) => {
+            marker.addEventListener('click', () => {
+                const countryName = marker.id;
+                this.changeDataAccordingToCountry(countryName);
             });
         });
     }

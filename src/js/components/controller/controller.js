@@ -21,11 +21,44 @@ export default class Controller {
         this.state.init()
             .then(() => {
                 this.view.renderState();
+                this.addListenersToCountriesList();
+                this.addListenersToReturnToGlobalBtns();
+                this.addListenersToExpandBtns();
                 this.addListenersToCountriesOptions();
                 this.addListenersToDetailsToggles();
                 this.addListenersToChartOptions();
                 this.addListenersToSearchBars();
             });
+    }
+
+    addListenersToCountriesList() {
+        const { countries } = this.view;
+        countries.forEach((country) => {
+            const clickableItem = country.item;
+            const countryName = country.country;
+            clickableItem.addEventListener('click', () => {
+                this.changeDataAccordingToCountry(countryName);
+            });
+        });
+    }
+
+    changeDataAccordingToCountry(countryName) {
+        this.state.setCurrentCountry(countryName)
+            .then(() => {
+                this.view.renderChart();
+                this.view.renderCountries();
+                this.addListenersToCountriesList();
+                this.view.renderDetails(countryName);
+                this.view.updateCountryNameInDetailsAndCharts();
+            });
+    }
+
+    addListenersToReturnToGlobalBtns() {
+        this.view.returnToGlobalBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                this.changeDataAccordingToCountry();
+            });
+        });
     }
 
     addListenersToCountriesOptions() {
@@ -35,6 +68,7 @@ export default class Controller {
                 const sortingCriteria = this.countriesOptions[radio.getAttribute('id')];
                 this.state.countriesSort(sortingCriteria);
                 this.view.renderCountries(sortingCriteria);
+                this.addListenersToCountriesList();
             });
         });
     }
@@ -44,8 +78,7 @@ export default class Controller {
         countriesOptions.forEach((radio) => {
             radio.addEventListener('click', () => {
                 const selectedCriteria = this.chartOptions[radio.getAttribute('id')];
-                console.log('click');
-                this.view.renderGraphs(selectedCriteria);
+                this.view.renderChart(selectedCriteria);
             });
         });
     }
@@ -72,7 +105,30 @@ export default class Controller {
                 const input = e.target.value;
                 const filteredCountries = this.state.getMatchingCountries(input);
                 this.view.renderSearchSuggestions(searchField, filteredCountries);
+                this.addListenersToSearchSuggestions();
             });
         });
+    }
+
+    addListenersToSearchSuggestions() {
+        const suggestions = document.querySelectorAll('.content__search--item');
+        if (suggestions.length === 0) {
+            return;
+        }
+        suggestions.forEach((country) => {
+            country.addEventListener('click', () => {
+                const countryName = country.lastChild.innerText;
+                this.changeDataAccordingToCountry(countryName);
+                const coordinates = this.state.getCountryCoordinates(countryName);
+                this.view.poisitionMap(coordinates);
+                this.view.clearAllSearchSuggestions();
+            });
+        });
+    }
+
+    addListenersToExpandBtns() {
+        this.view.expandBtns.forEach((btn) => btn.addEventListener('click', () => {
+            this.view.toggleExpandBlock(btn);
+        }));
     }
 }

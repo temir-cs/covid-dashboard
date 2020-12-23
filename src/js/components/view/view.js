@@ -14,6 +14,11 @@ export default class View {
         this.chartContainer = document.querySelector('.chart-container');
         this.chart = null;
         this.map = null;
+        this.countries = [];
+        this.returnToGlobalBtns = document.querySelectorAll('.content__to-global-btn');
+        this.expandBtns = document.querySelectorAll('.content__expand-btn');
+        this.searchSuggestionsContainers = document.querySelectorAll('.content__search--suggestions');
+        this.searchBars = document.querySelectorAll('.content__search');
     }
 
     renderState() {
@@ -22,7 +27,7 @@ export default class View {
         this.renderCountries();
         this.renderDetails();
         this.renderMap();
-        this.renderGraphs();
+        this.renderChart();
     }
 
     renderDate() {
@@ -40,10 +45,16 @@ export default class View {
         const countriesContainer = document.querySelector('.countries');
         countriesContainer.innerHTML = '';
         this.countryMarker = sortingCriteria || this.countryMarker;
-        this.state.countries.forEach((country) => {
-            const countryItem = this.renderLineInCountryList(country);
+        if (this.state.currentCountry) {
+            const countryItem = this.renderLineInCountryList(this.state.currentCountry);
             countriesContainer.appendChild(countryItem);
-        });
+        } else {
+            this.countries = [];
+            this.state.countries.forEach((country) => {
+                const countryItem = this.renderLineInCountryList(country);
+                countriesContainer.appendChild(countryItem);
+            });
+        }
     }
 
     renderLineInCountryList(country) {
@@ -54,6 +65,9 @@ export default class View {
                 </span>
                 <span class="countries__name">${country.country}</span>
                 <div class="countries__flag"><img src="${country.flagPath}"></div>`;
+        if (!this.state.currentCountry) {
+            this.countries.push({ country: country.country, item: listItem });
+        }
         return listItem;
     }
 
@@ -70,7 +84,19 @@ export default class View {
         });
     }
 
-    renderDetails() {
+    clearAllSearchSuggestions() {
+        this.searchSuggestionsContainers.forEach((element) => {
+            const container = element;
+            container.innerHTML = '';
+        });
+        this.searchBars.forEach((element) => {
+            const bar = element;
+            bar.value = '';
+        });
+    }
+
+    renderDetails(countryName) {
+        const source = (countryName) ? this.state.currentCountry : this.state.global;
         let cases = (this.detailsIsTotal) ? 'totalConfirmed' : 'newConfirmed';
         let deaths = (this.detailsIsTotal) ? 'totalDeaths' : 'newDeaths';
         let recovered = (this.detailsIsTotal) ? 'totalRecovered' : 'newRecovered';
@@ -83,9 +109,9 @@ export default class View {
         const detailsCases = document.querySelector('.stats__number--cases');
         const detailsDeaths = document.querySelector('.stats__number--deaths');
         const detailsRecovered = document.querySelector('.stats__number--recovered');
-        detailsCases.innerText = this.state.global[cases].toLocaleString('de-DE');
-        detailsDeaths.innerText = this.state.global[deaths].toLocaleString('de-DE');
-        detailsRecovered.innerText = this.state.global[recovered].toLocaleString('de-DE');
+        detailsCases.innerText = source[cases].toLocaleString('de-DE');
+        detailsDeaths.innerText = source[deaths].toLocaleString('de-DE');
+        detailsRecovered.innerText = source[recovered].toLocaleString('de-DE');
     }
 
     renderPeriodToggle(periodToggle) {
@@ -102,7 +128,27 @@ export default class View {
         toggleText.innerText = (this.detailsIsAbs) ? 'Absolute' : 'Per 100K';
     }
 
-    renderGraphs(selectedCriteria) {
+    updateCountryNameInDetailsAndCharts() {
+        const nameToDisplay = (this.state.currentCountry) ? this.state.currentCountry.country : 'Global';
+        const nameHeaders = document.querySelectorAll('.content__country-name');
+        nameHeaders.forEach((header) => {
+            const lineToChange = header;
+            lineToChange.innerText = nameToDisplay;
+        });
+        this.returnToGlobalBtns.forEach((btn) => {
+            if (this.state.currentCountry) {
+                if (btn.classList.contains('content__to-global-btn--hidden')) {
+                    btn.classList.remove('content__to-global-btn--hidden');
+                }
+            } else {
+                if (!btn.classList.contains('content__to-global-btn--hidden')) {
+                    btn.classList.add('content__to-global-btn--hidden');
+                }
+            }
+        });
+    }
+
+    renderChart(selectedCriteria) {
         const key = selectedCriteria || 'dailyConfirmedIncrements';
         const tooltipTxt = CHART_TOOLTIPS[selectedCriteria] || 'Daily Confirmed Rates';
         const dates = [...this.state.currentGraph[key].keys()].map((x) => x.slice(0, 10));
@@ -129,6 +175,9 @@ export default class View {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            callback(value) {
+                                return (value > 1000 ? `${`${value}`.slice(0, -3)}K` : value);
+                            }
                         },
                     }],
                     xAxes: [{
@@ -233,7 +282,24 @@ export default class View {
         geoJsonLayers.addTo(this.map);
     }
 
+    poisitionMap(coordinates) {
+        const [lat, lng] = coordinates;
+        this.map.flyTo(new L.LatLng(lat, lng), 4.5);
+    }
+
     fixMapSize() {
         this.map.invalidateSize();
+    }
+
+    toggleExpandBlock(btn) {
+        const parent = btn.parentNode;
+        parent.classList.toggle('content__expandable--expanded');
+        btn.classList.toggle('content__expand-btn--expanded');
+        if (parent.classList.contains('content__center')) {
+            setTimeout(() => {
+                // --- need to fix map configs in fullscreen mode
+                this.fixMapSize();
+            }, 100);
+        }
     }
 }

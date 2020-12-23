@@ -104,9 +104,12 @@
       <div class="content__chart  content__expandable">
         <button class="content__expand-btn"></button>
         <h2 class="content__subtitle">Daily rates: <span class="content__country-name">Global</span></h2>
-        <div class="content__search-container">
+        <div class="content__to-global-container">
           <button class="content__to-global-btn  content__to-global-btn--hidden"></button>
-          <span class="content__remark">or</span> <input class="content__search" placeholder="Search by Country...">
+          <span class="content__remark">or</span> 
+        </div>
+        <div class="content__search-container">
+          <input class="content__search" placeholder="Search by Country...">
           <div class="content__search--suggestions">
           </div>
         </div>
@@ -133,17 +136,5 @@
       </span>
   </footer>
 
-
-  <script>
-    // ---- TO BE REMOVED --- //
-
-    const expandBtns = document.querySelectorAll('.content__expand-btn');
-    expandBtns.forEach((btn) => btn.addEventListener('click', () => {
-      const parent = btn.parentNode;
-      parent.classList.toggle('content__expandable--expanded');
-      btn.classList.toggle('content__expand-btn--expanded');
-    }))
-    // ---- TO BE REMOVED --- //
-  </script>
 </body>
 </html>

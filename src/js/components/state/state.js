@@ -24,14 +24,14 @@ export default class State {
             dailyDeathsIncrements: null,
             dailyRecoveredIncrements: null,
         };
-        this.flagsAndPopulation = null;
+        this.currentCountry = null;
     }
 
     init() {
         return Promise.all([
             this.getGlobal(),
             this.getCountries(),
-            this.getGlobalDaily(),
+            this.getDailyForChart(GLOBAL_DAILY_URL),
         ]);
     }
 
@@ -86,19 +86,21 @@ export default class State {
             }));
     }
 
-    getGlobalDaily() {
-        return (getJSON.call(this, GLOBAL_DAILY_URL)
+    getDailyForChart(url, country) {
+        return (getJSON.call(this, url)
             .then((result) => {
-                const dailyStats = JSON.parse(result);
-                // console.log(dailyStats);
-                const dailyConfirmed = dailyStats.cases;
-                const dailyDeaths = dailyStats.deaths;
-                const dailyRecovered = dailyStats.recovered;
-                this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
-                this.createIncrementsForGraphs(dailyDeaths, 'dailyDeathsIncrements');
-                this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
-                // console.log(this.currentGraph);
+                const dailyStats = country ? JSON.parse(result).timeline : JSON.parse(result);
+                this.fillChartData(dailyStats);
             }));
+    }
+
+    fillChartData(dailyStats) {
+        const dailyConfirmed = dailyStats.cases;
+        const dailyDeaths = dailyStats.deaths;
+        const dailyRecovered = dailyStats.recovered;
+        this.createIncrementsForGraphs(dailyConfirmed, 'dailyConfirmedIncrements');
+        this.createIncrementsForGraphs(dailyDeaths, 'dailyDeathsIncrements');
+        this.createIncrementsForGraphs(dailyRecovered, 'dailyRecoveredIncrements');
     }
 
     createIncrementsForGraphs(iniObj, key) {
@@ -117,5 +119,23 @@ export default class State {
 
     getMatchingCountries(input) {
         return this.countries.filter((item) => item.country.toLowerCase().startsWith(input.toLowerCase()));
+    }
+
+    setCurrentCountry(countryName) {
+        this.currentCountry = (countryName) ? this.findCountry(countryName) : null;
+        if (this.currentCountry) {
+            const countryDailyUrl = `https://disease.sh/v3/covid-19/historical/${countryName}?lastdays=all`;
+            return this.getDailyForChart(countryDailyUrl, countryName);
+        }
+        return this.getDailyForChart(GLOBAL_DAILY_URL);
+    }
+
+    findCountry(countryName) {
+        return this.countries.find((country) => country.country === countryName);
+    }
+
+    getCountryCoordinates(countryName) {
+        const { lat, long } = this.findCountry(countryName);
+        return [lat, long];
     }
 }

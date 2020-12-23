@@ -146,3 +146,7 @@
 .leaflet-control-zoom-in {
     position: initial;
 }
+
+.content__expandable--expanded #map-container {
+    height: 100vh;
+}

@@ -8,7 +8,7 @@ async function getJSON(url, reqOpt) {
 const numbersSort = (a, b) => b - a;
 
 const getDataRange = (data, levels) => {
-    const tmp = data.sort(function (a, b) { return a - b; });
+    const tmp = data.sort((a, b) => a - b);
     const quantiles = [];
     const step = data.length / levels;
     for (let i = 1; i < levels; i++) {
@@ -21,7 +21,7 @@ const getDataRange = (data, levels) => {
     if (bounds[tmp.length - 1] !== tmp[tmp.length - 1]) bounds.push(tmp[tmp.length - 1]);
 
     const range = bounds;
-    range.sort(function (a, b) { return a - b; });
+    range.sort((a, b) => a - b);
 
     return range;
 };

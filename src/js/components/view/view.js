@@ -223,10 +223,11 @@ export default class View {
         setTimeout(() => {
             this.fixMapSize();
         }, 100);
-        this.createMapMarkers();
+        this.renderMapMarkers();
+        this.renderMapLegend();
     }
 
-    createMapMarkers() {
+    renderMapMarkers() {
         const countryPointToLayer = (feature, latlng) => {
             const { properties } = feature;
             const {
@@ -279,6 +280,23 @@ export default class View {
             pointToLayer: countryPointToLayer,
         });
         geoJsonLayers.addTo(this.map);
+    }
+
+    renderMapLegend() {
+        const legend = L.control({ position: 'bottomleft' });
+        legend.onAdd = () => {
+            const div = L.DomUtil.create('div', 'map__legend map__legend--box');
+            div.innerHTML = '<h4 class="map__legend--title">Spread rate: </h4>';
+            div.innerHTML += `
+            <i class="map__legend--icon--1"></i> Slow<br>
+            <i class="map__legend--icon--3"></i> <br>
+            <i class="map__legend--icon--5"></i> Moderate<br>
+            <i class="map__legend--icon--7"></i> <br>
+            <i class="map__legend--icon--10"></i> Fast<br>`;
+            return div;
+        };
+
+        legend.addTo(this.map);
     }
 
     poisitionMapAndPulse(coordinates) {

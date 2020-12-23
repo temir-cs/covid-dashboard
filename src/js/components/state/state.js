@@ -60,7 +60,7 @@ export default class State {
         return (getJSON.call(this, COUNTRY_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                console.log(allData);
+                // console.log(allData);
                 allData.forEach((country) => {
                     this.countries.push({
                         country: country.country || 0,

@@ -12,7 +12,16 @@ $text-color: black;
 $country-hover-color: #aad3df;
 $map-marker-color: black;
 
-
+$color-level--1: rgba($map-marker-color, 0.1);
+$color-level--2: rgba($map-marker-color, 0.2);
+$color-level--3: rgba($map-marker-color, 0.3);
+$color-level--4: rgba($map-marker-color, 0.4);
+$color-level--5: rgba($map-marker-color, 0.5);
+$color-level--6: rgba($map-marker-color, 0.6);
+$color-level--7: rgba($map-marker-color, 0.7);
+$color-level--8: rgba($map-marker-color, 0.8);
+$color-level--9: rgba($map-marker-color, 0.9);
+$color-level--10: $map-marker-color;
 
 $mobile-width: "(max-width: 500px)";
 $tablet-width: "(max-width: 980px)";

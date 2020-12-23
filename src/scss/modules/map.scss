@@ -151,6 +151,66 @@
     height: 100vh;
 }
 
+.map__legend--box {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.map__legend {
+    line-height: 18px;
+    color: #555;
+
+    &--title {
+        margin: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.map__legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.map__legend--icon {
+    &--1 {
+        background-color: $color-level--1;
+    }
+    &--2 {
+        background-color: $color-level--2;
+    }
+    &--3 {
+        background-color: $color-level--3;
+    }
+    &--4 {
+        background-color: $color-level--4;
+    }
+    &--5 {
+        background-color: $color-level--5;
+    }
+    &--6 {
+        background-color: $color-level--6;
+    }
+    &--7 {
+        background-color: $color-level--7;
+    }
+    &--8 {
+        background-color: $color-level--8;
+    }
+    &--9 {
+        background-color: $color-level--9;
+    }
+    &--10 {
+        background-color: $color-level--10;    
+    }
+}
+
 .pulse {
     animation: pulse 1s linear infinite;
 }

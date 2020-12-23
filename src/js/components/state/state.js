@@ -1,5 +1,5 @@
-import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL } from './consts';
-import { getJSON, numbersSort } from './utils';
+import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL, TOTAL_SPREAD_SPEED_LEVELS } from './consts';
+import { getJSON, numbersSort, getDataRange, classifyByRange } from './utils';
 
 export default class State {
     constructor() {
@@ -60,7 +60,7 @@ export default class State {
         return (getJSON.call(this, COUNTRY_URL)
             .then((result) => {
                 const allData = JSON.parse(result);
-                // console.log(allData);
+                console.log(allData);
                 allData.forEach((country) => {
                     this.countries.push({
                         country: country.country || 0,
@@ -80,6 +80,8 @@ export default class State {
                         // Location info
                         lat: country.countryInfo.lat || 0,
                         long: country.countryInfo.long || 0,
+                        // Spread ratio
+                        spreadRatio: (country.cases * 10000) / country.population,
                     });
                 });
                 this.countries = this.countries.sort((a, b) => numbersSort(a.totalConfirmed, b.totalConfirmed));
@@ -138,5 +140,14 @@ export default class State {
         if (!countryName) return undefined;
         const { lat, long } = this.findCountry(countryName);
         return [lat, long];
+    }
+
+    getSpreadSpeedLevel(countryName) {
+        const currentCountry = this.findCountry(countryName);
+        const currentValue = currentCountry.spreadRatio;
+        const allValues = this.countries.map((country) => country.spreadRatio);
+        const dataRange = getDataRange(allValues, TOTAL_SPREAD_SPEED_LEVELS);
+        const ratio = classifyByRange(currentValue, dataRange);
+        return ratio;
     }
 }

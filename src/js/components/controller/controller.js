@@ -128,7 +128,6 @@ export default class Controller {
         });
     }
 
-    // eslint-disable-next-line class-methods-use-this
     addListenerToMapMarkers() {
         const mapMarkers = document.querySelectorAll('.map__marker');
         mapMarkers.forEach((marker) => {

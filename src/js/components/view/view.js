@@ -1,7 +1,6 @@
 import Chart from 'chart.js';
 // import { MONTH_NAMES, COUNTRY_NAMES } from './consts';
 import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS } from './consts';
-import { getSeverityCoefficient } from '../state/utils';
 
 const L = require('leaflet');
 
@@ -216,7 +215,7 @@ export default class View {
             maxBounds: worldBounds,
             maxBoundsViscosity: 0.75,
         });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '',
             noWrap: false,
         }).addTo(this.map);
@@ -237,9 +236,9 @@ export default class View {
                 totalRecovered,
             } = properties;
             const casesStr = `${totalConfirmed > 1000 ? `${`${totalConfirmed}`.slice(0, -3)}k` : totalConfirmed}`;
-            const severity = getSeverityCoefficient(totalConfirmed);
+            const level = this.state.getSpreadSpeedLevel(country);
             const html = `
-            <span class="map__marker map__marker--${severity}" id="${country}">
+            <span class="map__marker map__marker--${level}" id="${country}">
                 <span class="map__tooltip">
                     <h2 class="map__tooltip-title">${country}</h2>
                     <ul class="map__tooltip-list">

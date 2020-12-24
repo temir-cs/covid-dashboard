@@ -5,8 +5,6 @@
 .countries__container {
   height: 46vh;
   overflow-y: scroll;
-  // outline: 1px red solid;
-
 }
 
 .content__expandable--expanded .countries__container {
@@ -35,12 +33,10 @@
 .countries__number {
   width: 35%;
   font-weight: 600; 
-  // outline: 1px green solid;
 }
 
 .countries__name {
   width: 48%;
-  // outline: 1px red solid;
 }
 
 .countries__flag {
@@ -64,7 +60,6 @@
   
   .countries__name {
     width: 48%;
-    // outline: 1px red solid;
   }
   
 

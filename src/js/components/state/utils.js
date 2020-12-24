@@ -1,7 +1,6 @@
 async function getJSON(url, reqOpt) {
     const response = await fetch(url, reqOpt);
     const data = await response.text();
-    // console.log(data);
     return data;
 }
 
@@ -13,7 +12,7 @@ const getDataRange = (data, levels) => {
     const step = data.length / levels;
     for (let i = 1; i < levels; i++) {
         const qidx = Math.round(i * step + 0.49);
-        quantiles.push(tmp[qidx - 1]); // zero-based
+        quantiles.push(tmp[qidx - 1]);
     }
     const bounds = quantiles;
 

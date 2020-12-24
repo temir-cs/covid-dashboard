@@ -1,4 +1,4 @@
-import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL, TOTAL_SPREAD_SPEED_LEVELS } from './consts';
+import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL, TOTAL_SPREAD_SPEED_LEVELS, INVALID_GEO_NAMES } from './consts';
 import { getJSON, numbersSort, getDataRange, classifyByRange } from './utils';
 
 export default class State {
@@ -65,29 +65,30 @@ export default class State {
             .then((result) => {
                 const allData = JSON.parse(result);
                 allData.forEach((country) => {
-                    this.countries.push({
-                        country: country.country || 0,
-                        population: country.population || 0,
-                        flagPath: country.countryInfo.flag,
-                        totalConfirmed: country.cases || 0,
-                        totalRecovered: country.recovered || 0,
-                        totalDeaths: country.deaths || 0,
-                        newConfirmed: country.todayCases || 0,
-                        newRecovered: country.todayRecovered || 0,
-                        newDeaths: country.todayDeaths || 0,
-                        confirmedPer100K: (country.population) ? Math.round((country.cases * 100000) / country.population) : 0,
-                        recoveredPer100K: (country.population) ? Math.round((country.recovered * 100000 || 0) / country.population) : 0,
-                        deathsPer100K: (country.population) ? Math.round((country.deaths * 100000 || 0) / country.population) : 0,
-                        newConfirmedPer100K: (country.population)
-                            ? Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100 : 0,
-                        newRecoveredPer100K: (country.population)
-                            ? Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100 : 0,
-                        newDeathsPer100K: (country.population)
-                            ? Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100 : 0,
-                        // Location info
-                        lat: country.countryInfo.lat || 0,
-                        long: country.countryInfo.long || 0,
-                    });
+                    if (!INVALID_GEO_NAMES.includes(country.country)) {
+                        this.countries.push({
+                            country: country.country || 0,
+                            population: country.population || 0,
+                            flagPath: country.countryInfo.flag,
+                            totalConfirmed: country.cases || 0,
+                            totalRecovered: country.recovered || 0,
+                            totalDeaths: country.deaths || 0,
+                            newConfirmed: country.todayCases || 0,
+                            newRecovered: country.todayRecovered || 0,
+                            newDeaths: country.todayDeaths || 0,
+                            confirmedPer100K: (country.population) ? Math.round((country.cases * 100000) / country.population) : 0,
+                            recoveredPer100K: (country.population) ? Math.round((country.recovered * 100000 || 0) / country.population) : 0,
+                            deathsPer100K: (country.population) ? Math.round((country.deaths * 100000 || 0) / country.population) : 0,
+                            newConfirmedPer100K: (country.population)
+                                ? Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100 : 0,
+                            newRecoveredPer100K: (country.population)
+                                ? Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100 : 0,
+                            newDeathsPer100K: (country.population)
+                                ? Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100 : 0,
+                            lat: country.countryInfo.lat || 0,
+                            long: country.countryInfo.long || 0,
+                        });
+                    }
                 });
                 this.countries = this.countries.sort((a, b) => numbersSort(a.totalConfirmed, b.totalConfirmed));
             }));

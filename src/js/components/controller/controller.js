@@ -31,6 +31,11 @@ export default class Controller {
                 this.addListenersToSearchBars();
                 this.addListenersToMapMarkers();
                 this.keyboard.init('en').generateLayout();
+                this.state.countries.forEach((item) => {
+                    const countryName = item.country;
+                    const countryDailyUrl = `https://disease.sh/v3/covid-19/historical/${countryName}?lastdays=all`;
+                    this.state.getFailedCountries(countryDailyUrl, countryName);
+                });
             });
     }
 

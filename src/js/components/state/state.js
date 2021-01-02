@@ -1,5 +1,17 @@
-import { GLOBAL_URL, COUNTRY_URL, GLOBAL_DAILY_URL, TOTAL_SPREAD_SPEED_LEVELS, INVALID_GEO_NAMES } from './consts';
-import { getJSON, numbersSort, getDataRange, classifyByRange } from './utils';
+import {
+    getJSON,
+    numbersSort,
+    getDataRange,
+    classifyByRange
+} from './utils';
+import {
+    GLOBAL_URL,
+    COUNTRY_URL,
+    GLOBAL_DAILY_URL,
+    TOTAL_SPREAD_SPEED_LEVELS,
+    POPULATION_UNIT,
+    INVALID_GEO_NAMES
+} from './consts';
 
 export default class State {
     constructor() {
@@ -51,12 +63,12 @@ export default class State {
                 this.global.newConfirmed = allData.todayCases;
                 this.global.newRecovered = allData.todayDeaths;
                 this.global.newDeaths = allData.todayRecovered;
-                this.global.confirmedPer100K = Math.round((this.global.totalConfirmed * 100000) / allData.population);
-                this.global.recoveredPer100K = Math.round((this.global.totalRecovered * 100000) / allData.population);
-                this.global.deathsPer100K = Math.round((this.global.totalDeaths * 100000) / allData.population);
-                this.global.newConfirmedPer100K = Math.round((this.global.newConfirmed * 10000000) / allData.population) / 100;
-                this.global.newRecoveredPer100K = Math.round((this.global.newRecovered * 10000000) / allData.population) / 100;
-                this.global.newDeathsPer100K = Math.round((this.global.newDeaths * 10000000) / allData.population) / 100;
+                this.global.confirmedPer100K = Math.round((this.global.totalConfirmed * POPULATION_UNIT) / allData.population);
+                this.global.recoveredPer100K = Math.round((this.global.totalRecovered * POPULATION_UNIT) / allData.population);
+                this.global.deathsPer100K = Math.round((this.global.totalDeaths * POPULATION_UNIT) / allData.population);
+                this.global.newConfirmedPer100K = Math.round((this.global.newConfirmed * POPULATION_UNIT * 100) / allData.population) / 100;
+                this.global.newRecoveredPer100K = Math.round((this.global.newRecovered * POPULATION_UNIT * 100) / allData.population) / 100;
+                this.global.newDeathsPer100K = Math.round((this.global.newDeaths * POPULATION_UNIT * 100) / allData.population) / 100;
             }));
     }
 
@@ -76,15 +88,17 @@ export default class State {
                             newConfirmed: country.todayCases || 0,
                             newRecovered: country.todayRecovered || 0,
                             newDeaths: country.todayDeaths || 0,
-                            confirmedPer100K: (country.population) ? Math.round((country.cases * 100000) / country.population) : 0,
-                            recoveredPer100K: (country.population) ? Math.round((country.recovered * 100000 || 0) / country.population) : 0,
-                            deathsPer100K: (country.population) ? Math.round((country.deaths * 100000 || 0) / country.population) : 0,
+                            confirmedPer100K: (country.population) ? Math.round((country.cases * POPULATION_UNIT) / country.population) : 0,
+                            recoveredPer100K: (country.population)
+                                ? Math.round((country.recovered * POPULATION_UNIT || 0) / country.population) : 0,
+                            deathsPer100K: (country.population)
+                                ? Math.round((country.deaths * POPULATION_UNIT || 0) / country.population) : 0,
                             newConfirmedPer100K: (country.population)
-                                ? Math.round(((country.todayCases || 0) * 10000000) / country.population) / 100 : 0,
+                                ? Math.round(((country.todayCases || 0) * POPULATION_UNIT * 100) / country.population) / 100 : 0,
                             newRecoveredPer100K: (country.population)
-                                ? Math.round(((country.todayRecovered || 0) * 10000000) / country.population) / 100 : 0,
+                                ? Math.round(((country.todayRecovered || 0) * POPULATION_UNIT * 100) / country.population) / 100 : 0,
                             newDeathsPer100K: (country.population)
-                                ? Math.round(((country.todayDeaths || 0) * 10000000) / country.population) / 100 : 0,
+                                ? Math.round(((country.todayDeaths || 0) * POPULATION_UNIT * 100) / country.population) / 100 : 0,
                             lat: country.countryInfo.lat || 0,
                             long: country.countryInfo.long || 0,
                         });
@@ -118,7 +132,7 @@ export default class State {
         let prevDateCases = 0;
         for (const [date, activeCases] of Object.entries(iniObj)) {
             const value = (activeCases - prevDateCases > 0) ? activeCases - prevDateCases : 0;
-            const value100K = Math.round(((value || 0) * 10000000) / population) / 100 || 0;
+            const value100K = Math.round(((value || 0) * POPULATION_UNIT * 100) / population) / 100 || 0;
             this.currentGraph[absKey].set(date, value);
             this.currentGraph[key100K].set(date, value100K);
             prevDateCases = activeCases;
@@ -130,7 +144,7 @@ export default class State {
     }
 
     getMatchingCountries(input) {
-        return this.countries.filter((item) => item.country.toLowerCase().startsWith(input.toLowerCase()));
+        return this.countries.filter((item) => item.country.toLowerCase().includes(input.toLowerCase()));
     }
 
     setCurrentCountry(countryName) {

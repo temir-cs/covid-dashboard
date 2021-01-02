@@ -1,5 +1,13 @@
 import Chart from 'chart.js';
-import { MONTH_NAMES, WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, CHART_TOOLTIPS, DATA_TOOLTIPS, TABLET_WIDTH } from './consts';
+import {
+    MONTH_NAMES,
+    WORLD_BOUNDS,
+    DEFAULT_MAP_ZOOM,
+    DEFAULT_COUNTRY_ZOOM,
+    CHART_TOOLTIPS,
+    DATA_TOOLTIPS,
+    TABLET_WIDTH
+} from './consts';
 
 const L = require('leaflet');
 
@@ -34,7 +42,6 @@ export default class View {
 
     renderDate() {
         const lastUpdated = document.querySelector('.content__accent--date');
-        // console.log(this.state.lastUpdated);
         lastUpdated.innerText = this.state.lastUpdated.toLocaleDateString('en-GB');
     }
 

@@ -58,6 +58,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'html/index.html'),
+            title: 'Covid Dashboard',
         }),
         new CopyPlugin({
             patterns: [

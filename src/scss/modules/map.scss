@@ -1,0 +1,237 @@
+#map-container {
+    height: 88vh;
+}
+
+.map__marker {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 3.6em;
+    height: 3.6em;
+    font-size: .7em;
+    font-weight: bold;
+    border-radius: 100%;
+    box-shadow: 0 2px 5px rgba(black, .9);
+    background-image: url("./assets/img/map_marker_bg.svg");
+    color: black;
+
+    &--0 {
+        background-image: url("./assets/img/map_marker_bg.svg");
+        color: black;
+    }
+
+    &--1 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.1), rgba($map-marker-color, 0.1)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: black;
+    }
+  
+    &--2 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.2), rgba($map-marker-color, 0.2)), 
+                           url("./assets/img/map_marker_bg.svg");
+         color: black;
+   }
+  
+    &--3 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.3), rgba($map-marker-color, 0.3)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: black;
+    }
+  
+    &--4 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.4), rgba($map-marker-color, 0.4)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--5 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.5), rgba($map-marker-color, 0.5)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--6 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.6), rgba($map-marker-color, 0.6)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--7 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.7), rgba($map-marker-color, 0.7)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--8 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.8), rgba($map-marker-color, 0.8)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--9 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 0.9), rgba($map-marker-color, 0.9)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &--10 {
+        background-image: linear-gradient(to bottom, rgba($map-marker-color, 1), rgba($map-marker-color, 1)), 
+                           url("./assets/img/map_marker_bg.svg");
+        color: white;
+    }
+  
+    &:hover {
+      .map__tooltip {
+        display: block;
+        }
+    }
+}
+
+.map__tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    width: 16em;
+    font-size: 1.4em;
+    padding: 1em;
+    background-color: $inputs-bg-color;
+    border-radius: .4em;
+    margin-bottom: 1em;
+    box-shadow: 0 3px 5px rgba(black, .9);
+
+    &:before {
+        display: block;
+        position: absolute;
+        bottom: -.6em;
+        left: 50%;
+        content: '';
+        width: 1.4em;
+        height: 1.4em;
+        background-color: $inputs-bg-color;
+        transform: rotate(45deg);
+        margin-left: -.7em;
+    }
+}
+
+
+.map__tooltip-title {
+    margin-bottom: .1em;
+    margin-top: 0;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700; 
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    color: $text-color;
+}
+
+.map__tooltip-list {
+    @include list-normalize();
+}
+
+.map__tooltip-list-item {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 400; 
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    color: $text-color;
+}
+
+
+.leaflet-control-attribution {
+    display: none;
+}
+
+.leaflet-control-zoom-out,
+.leaflet-control-zoom-in {
+    position: initial;
+}
+
+.content__expandable--expanded #map-container {
+    height: 100vh;
+}
+
+.map__legend--box {
+    padding: 0.6rem 0.8rem;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 0.5rem;
+}
+
+.map__legend {
+    line-height: 18px;
+    color: #555;
+
+    &--title {
+        margin: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.map__legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.map__legend--icon {
+    &--1 {
+        background-color: $color-level--1;
+    }
+    &--2 {
+        background-color: $color-level--2;
+    }
+    &--3 {
+        background-color: $color-level--3;
+    }
+    &--4 {
+        background-color: $color-level--4;
+    }
+    &--5 {
+        background-color: $color-level--5;
+    }
+    &--6 {
+        background-color: $color-level--6;
+    }
+    &--7 {
+        background-color: $color-level--7;
+    }
+    &--8 {
+        background-color: $color-level--8;
+    }
+    &--9 {
+        background-color: $color-level--9;
+    }
+    &--10 {
+        background-color: $color-level--10;    
+    }
+}
+
+.pulse {
+    animation: pulse 1s linear infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+
+@media #{$tablet-width} { 
+    #map-container {
+        width: 100%;
+        height: 24vh;
+    }
+
+  }

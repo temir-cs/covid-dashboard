@@ -1,0 +1,91 @@
+.options {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  &--chart {
+    position: relative;
+    margin-top: 1.5rem;
+    
+  }
+
+  &--map {
+    width: 40%;
+    left: initial;
+    right: 0;
+    bottom: 0;
+    box-shadow: -0.1rem -0.1rem 0.6rem rgba($map-marker-color, 0.6);
+    z-index: 999;
+  }
+
+  &--countries {
+    position: relative;
+    margin-top: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.options__input {
+  position: absolute;
+  opacity: 0;
+}
+
+.options__label {
+  display: block;
+  width: 33%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $main-bg-color;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.4rem;
+  line-height: 2rem;
+  border: 1px $darker-bg-color solid;
+
+  &:last-child {
+    width: 34%;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: $inputs-bg-color;
+  }
+}
+
+.options__input:checked + .options__label {
+  background: $toggle-circle-color;
+  font-weight: 600;
+
+  &:hover {
+    cursor: initial;
+  }
+} 
+
+
+
+@media #{$tablet-width} { 
+  .options {
+  
+    &--chart {
+      margin-top: 1.5rem;
+    }
+  
+    &--map {
+      width: 70%;
+      z-index: 999;
+    }
+  
+    &--countries {
+      margin-top: 1rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+}

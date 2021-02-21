@@ -1,0 +1,77 @@
+.countries {
+  @include list-normalize();  
+}
+
+.countries__container {
+  height: 46vh;
+  overflow-y: scroll;
+}
+
+.content__expandable--expanded .countries__container {
+  height: 80vh;
+}
+
+.countries__item {
+  padding-top: 0.6rem;
+  padding-bottom: 0.8rem;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  color: $text-color;
+  border-bottom: 1px $darker-bg-color solid;
+
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba($country-hover-color, 0.4);
+    cursor: pointer;
+  }
+}
+
+.countries__number {
+  width: 35%;
+  font-weight: 600; 
+}
+
+.countries__name {
+  width: 48%;
+}
+
+.countries__flag {
+  width: 3.6rem;
+  height: 2.4rem;
+  background-color: $darker-bg-color;
+  margin-left: 1rem;
+
+  & > img {
+    width: 3.6rem;
+    height: 2.4rem;
+  }
+}
+
+
+
+@media #{$s-desktop-width} {
+  .countries__number {
+    width: 40%;
+  }
+  
+  .countries__name {
+    width: 48%;
+  }
+  
+
+  .countries__flag {
+    width: 3rem;
+    height: 2rem;
+    margin-left: 0.5rem;
+  
+    & > img {
+      width: 3rem;
+      height: 2rem;
+    }
+  }
+  
+}

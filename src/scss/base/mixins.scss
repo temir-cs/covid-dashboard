@@ -1,0 +1,10 @@
+@mixin list-normalize() {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+@mixin block-border() {
+  border: 1px $map-bg-color solid;
+}

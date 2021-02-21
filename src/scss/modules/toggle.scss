@@ -1,0 +1,84 @@
+.toggle {
+  width: 96%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.toggle__btn {
+  padding: 0;
+  padding-left: 2rem;
+  padding-right: 0;
+  height: 2rem;
+  margin-right: 2.8rem;
+  background-color: $inputs-bg-color;
+  position: relative;
+  cursor: pointer;
+
+  &--period {
+    width: 40%;
+  }
+
+  &--numbers {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    margin-left: -0.5rem;
+    top: -0.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: $toggle-circle-color;
+    background-image: url("./assets/img/arrow_right.svg");
+    background-size: 1.4rem 1.4rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    box-shadow: 0.2rem 0 0.1rem rgba(black, 0.5);
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    background-color:  rgba($inputs-bg-color, 0.8);
+    &::after {
+        background-color: $inputs-bg-color;
+    }
+  }
+  
+
+  &--toggled {
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
+    &::after {
+      left: 100%;
+      margin-left: -1rem;
+      background-image: url("./assets/img/arrow_left.svg");
+      box-shadow: -0.2rem 0 0.1rem rgba(black, 0.5);
+    }
+  }
+}
+
+.toggle__txt {
+  padding: 0;
+  padding-left: 1rem;
+  margin: 0;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400; 
+  font-size: 1.3rem;
+  line-height: 2rem;
+}
+
+.toggle__btn--toggled .toggle__txt {
+  padding-left: 0;
+}
+
+
+
+
+
+
+

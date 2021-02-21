@@ -1,0 +1,17 @@
+.chart-container {
+  padding-top: 1rem;
+  height: 24vh;
+  background-color: $inputs-bg-color;
+}
+
+.content__expandable--expanded .chart-container {
+  height: 70vh;
+}
+
+
+@media #{$tablet-width} { 
+  .chart-container {
+    padding-top: 1rem;
+    height: 16rem;
+  }
+}
